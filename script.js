@@ -226,7 +226,7 @@ class ImageSlider {
 }
 
 // Load and render contributions
-fetch('contributions.json?v=1')
+fetch('contributions.json?v=3')
   .then(res => res.json())
   .then(data => {
     const tbody = document.querySelector('#contributions-table tbody');
@@ -242,7 +242,7 @@ fetch('contributions.json?v=1')
   });
 
 // Load and render expenses
-fetch('expenses.json?v=2')
+fetch('expenses.json?v=3')
   .then(res => res.json())
   .then(data => {
     const tbody = document.querySelector('#expenses-table tbody');
@@ -253,15 +253,16 @@ fetch('expenses.json?v=2')
       tbody.appendChild(tr);
       total += row.price;
     });
-    document.getElementById('expenses-total').textContent = formatPKR(total);
-    document.getElementById('donation-target').textContent = formatPKR(total);
-    document.getElementById('target-progress').textContent = formatPKR(total);
+    let target = 6500000;
+    document.getElementById('expenses-total').textContent = formatPKR(total) + " / " + formatPKR(target);
+    document.getElementById('donation-target').textContent = formatPKR(target);//formatPKR(total);
+    document.getElementById('target-progress').textContent = formatPKR(target);
     // Update progress bar
     fetch('contributions.json?v=2')
       .then(res => res.json())
       .then(contribs => {
         let raised = contribs.reduce((sum, c) => sum + c.amount, 0);
-        let percent = Math.min(100, (raised / total) * 100);
+        let percent = Math.min(100, (raised / target) * 100);
         document.getElementById('progress-bar-fill').style.width = percent + '%';
       });
   });
