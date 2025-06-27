@@ -277,6 +277,12 @@ window.addEventListener('DOMContentLoaded', () => {
     donateBtn.addEventListener('click', scrollToPaymentDetails);
   }
   
+  // Setup share button
+  const shareBtn = document.getElementById('share-btn');
+  if (shareBtn) {
+    shareBtn.addEventListener('click', sharePage);
+  }
+  
   // Add click event to payment section for better UX
   const paymentSection = document.getElementById('payment-details');
   if (paymentSection) {
@@ -287,4 +293,42 @@ window.addEventListener('DOMContentLoaded', () => {
       }
     });
   }
-}); 
+});
+
+// Share functionality
+function sharePage() {
+  const shareData = {
+    title: 'Masjid Fundraiser Appeal - Government Pilot Secondary School SIAKH',
+    text: 'Help us build a masjid at Government Pilot Secondary School SIAKH. Your donation is a sadaqah jariyah (ongoing charity) that will benefit generations to come.',
+    url: window.location.href
+  };
+
+  // Check if Web Share API is supported (mobile browsers)
+  if (navigator.share && navigator.canShare && navigator.canShare(shareData)) {
+    navigator.share(shareData)
+      .then(() => {
+        showNotification('Shared successfully!', 'success');
+      })
+      .catch((error) => {
+        console.log('Error sharing:', error);
+        fallbackShare();
+      });
+  } else {
+    // Fallback for desktop or unsupported browsers
+    fallbackShare();
+  }
+}
+
+// Fallback share method
+function fallbackShare() {
+  const url = window.location.href;
+  const text = 'Help us build a masjid at Government Pilot Secondary School SIAKH. Your donation is a sadaqah jariyah (ongoing charity) that will benefit generations to come.';
+  
+  // Try to copy URL to clipboard
+  copyToClipboard(url);
+  showNotification('URL copied! You can now share it manually.', 'info');
+  
+  // Also try to open WhatsApp Web if possible
+  const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(text + ' ' + url)}`;
+  window.open(whatsappUrl, '_blank');
+} 
