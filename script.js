@@ -242,7 +242,7 @@ fetch('contributions.json?v=1')
   });
 
 // Load and render expenses
-fetch('expenses.json')
+fetch('expenses.json?v=2')
   .then(res => res.json())
   .then(data => {
     const tbody = document.querySelector('#expenses-table tbody');
@@ -257,7 +257,7 @@ fetch('expenses.json')
     document.getElementById('donation-target').textContent = formatPKR(total);
     document.getElementById('target-progress').textContent = formatPKR(total);
     // Update progress bar
-    fetch('contributions.json')
+    fetch('contributions.json?v=2')
       .then(res => res.json())
       .then(contribs => {
         let raised = contribs.reduce((sum, c) => sum + c.amount, 0);
