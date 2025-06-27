@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Masjid Fundraiser Appeal - Government Pilot Secondary School SIAKH</title>
+  <meta name="description" content="Help us build a masjid at Government Pilot Secondary School SIAKH. Your donation is a sadaqah jariyah (ongoing charity) that will benefit generations to come.">
+  
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="Masjid Fundraiser Appeal - Government Pilot Secondary School SIAKH">
+  <meta property="og:description" content="Help us build a masjid at Government Pilot Secondary School SIAKH. Your donation is a sadaqah jariyah (ongoing charity) that will benefit generations to come.">
+  <meta property="og:image" content="og-progress.svg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="">
+  
+  <!-- Twitter Card Meta Tags -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Masjid Fundraiser Appeal - Government Pilot Secondary School SIAKH">
+  <meta name="twitter:description" content="Help us build a masjid at Government Pilot Secondary School SIAKH. Your donation is a sadaqah jariyah (ongoing charity) that will benefit generations to come.">
+  <meta name="twitter:image" content="og-progress.svg">
+  
+  <!-- Google Fonts for Urdu -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jameel+Noori+Nastaleeq:wght@400;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Donate Now Button -->
+  <div class="donate-now-btn" id="donate-now-btn">
+    <span class="btn-text">Donate Now</span>
+    <span class="btn-text-urdu">عطیہ دیں</span>
+  </div>
+
+  <header>
+    <h1>MASJID GOVERNMENT PILOT SECONDARY SCHOOL SIAKH</h1>
+    <h2>FUNDRAISER APPEAL</h2>
+    <div class="appeal-quote-arabic">مَنْ بَنَى مَسْجِدًا لِلَّهِ بَنَى اللَّهُ لَهُ فِي الْجَنَّةِ مِثْلَهُ</div>
+    <div class="appeal-quote-english">"Whoever builds a masjid for Allah, Allah will build for him a house like it in Paradise."<br>(Sahih Muslim)</div>
+  </header>
+  
+  <section class="featured-image">
+    <img src="images/Masjid appeal.png" alt="Masjid Fundraiser Appeal">
+  </section>
+  
+  <!-- New Content Section -->
+  <section class="content-section">
+    <div class="content-container">
+      <div class="english-content">
+        <h3>About This Project</h3>
+        <p>We are undertaking a noble mission to build a masjid at Government Pilot Secondary School SIAKH. This masjid will serve as a spiritual center for students, staff, and the local community, providing a place for daily prayers, Islamic education, and community gatherings.</p>
+        <p>Your contribution to this project is considered <strong>sadaqah jariyah</strong> (ongoing charity), which means the rewards will continue to benefit you even after your passing. Every prayer offered in this masjid, every Quran recited, and every Islamic lesson taught will bring you blessings from Allah (SWT).</p>
+        <p>We have carefully planned all the necessary materials and construction requirements. Your generous donations will help us complete this blessed project and create a lasting legacy for future generations.</p>
+      </div>
+      
+      <div class="urdu-content">
+        <h3>اردو میں اپیل</h3>
+        <p>الحمدللہ! اللہ تعالیٰ نے ہمیں یہ عظیم موقع عطا فرمایا ہے کہ ہم اپنے گاؤں میں مسجد کی تعمیر میں حصہ ڈال سکیں۔ مسجد اللہ کا گھر ہے اور اس کی تعمیر میں حصہ لینا صدقہ جاریہ ہے، جس کا اجر ہمیشہ باقی رہتا ہے۔</p>
+        <p>آپ سب سے گزارش ہے کہ دل کھول کر اس نیک کام میں تعاون کریں اور اپنی دنیا و آخرت سنواریں۔ اللہ تعالیٰ آپ کی اس قربانی کو قبول فرمائے اور آپ کے رزق میں برکت عطا فرمائے۔ آمین۔</p>
+        <p>یہ مسجد طلباء، اساتذہ اور مقامی برادری کے لیے روحانی مرکز کا کام کرے گی۔ آپ کا ہر روپیہ اس مقدس مقصد میں استعمال ہوگا۔</p>
+      </div>
+    </div>
+  </section>
+  
+  <section class="gallery-slider" id="gallery-slider">
+    <div class="slider-container">
+      <div class="slider-track" id="slider-track">
+        <!-- Images will be loaded here -->
+      </div>
+      <button class="slider-btn prev-btn" id="prev-btn">‹</button>
+      <button class="slider-btn next-btn" id="next-btn">›</button>
+      <div class="slider-dots" id="slider-dots">
+        <!-- Dots will be generated here -->
+      </div>
+    </div>
+  </section>
+  
+  <section class="donation-progress">
+    <h3>Donation Target: <span id="donation-target"></span></h3>
+    <div class="progress-bar-container">
+      <div class="progress-bar-bg">
+        <div class="progress-bar-fill" id="progress-bar-fill"></div>
+      </div>
+      <div class="progress-bar-labels">
+        <span id="current-progress"></span> / <span id="target-progress"></span>
+      </div>
+    </div>
+  </section>
+  
+  <section class="contributions-table-section">
+    <h3>Contributions</h3>
+    <table id="contributions-table">
+      <thead>
+        <tr><th>Name</th><th>Date</th><th>Amount (PKR)</th></tr>
+      </thead>
+      <tbody></tbody>
+      <tfoot>
+        <tr><td colspan="2">Total</td><td id="contributions-total"></td></tr>
+      </tfoot>
+    </table>
+  </section>
+  
+  <section class="expenses-table-section">
+    <h3>Expenses</h3>
+    <table id="expenses-table">
+      <thead>
+        <tr><th>Item</th><th>Requirement</th><th>Price (PKR)</th></tr>
+      </thead>
+      <tbody></tbody>
+      <tfoot>
+        <tr><td colspan="2">Total</td><td id="expenses-total"></td></tr>
+      </tfoot>
+    </table>
+  </section>
+  
+  <!-- Prominent Payment Details Section -->
+  <section class="payment-details-section" id="payment-details">
+    <div class="payment-header">
+      <h2>💳 Payment Details</h2>
+      <p class="payment-subtitle">Make your donation to support this noble cause</p>
+    </div>
+    
+    <div class="payment-card">
+      <div class="bank-info">
+        <div class="bank-logo">🏦</div>
+        <div class="bank-details">
+          <h3>INTERNATIONAL BANK ACCOUNT</h3>
+          <div class="account-details">
+            <div class="detail-row">
+              <span class="label">Bank:</span>
+              <span class="value">ALLIED BANK LIMITED</span>
+            </div>
+            <div class="detail-row">
+              <span class="label">Branch:</span>
+              <span class="value">NEW SIAKH BRANCH (0039)</span>
+            </div>
+            <div class="detail-row">
+              <span class="label">Account Title:</span>
+              <span class="value">AMJAD MAHMOOD AND AFZA...</span>
+            </div>
+            <div class="detail-row highlight">
+              <span class="label">IBAN:</span>
+              <span class="value">PK61ABPA0010024338080039</span>
+            </div>
+            <div class="detail-row">
+              <span class="label">SWIFT Code:</span>
+              <span class="value">ABPAPKKA</span>
+            </div>
+            <div class="detail-row">
+              <span class="label">Mobile:</span>
+              <span class="value">0301-8680039</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="payment-actions">
+        <button class="copy-iban-btn" onclick="copyToClipboard('PK61ABPA0010024338080039')">
+          📋 Copy IBAN
+        </button>
+        <button class="copy-mobile-btn" onclick="copyToClipboard('0301-8680039')">
+          📱 Copy Mobile
+        </button>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Separate Contact Details Section -->
+  <section class="contact-details-section">
+    <h3>📞 Contact Information</h3>
+    <div class="contact-cards">
+      <div class="contact-card">
+        <div class="contact-icon">👨‍🏫</div>
+        <div class="contact-info">
+          <h4>Muhammad Jahangir</h4>
+          <p class="contact-role">Incharge Headmaster</p>
+          <p class="contact-location">Pilot High School SIAKH</p>
+          <p class="contact-phone">📞 +92 306 5563280</p>
+        </div>
+      </div>
+      
+      <div class="contact-card">
+        <div class="contact-icon">👨‍🏫</div>
+        <div class="contact-info">
+          <h4>Amjad Mahmood</h4>
+          <p class="contact-role">Senior Teacher</p>
+          <p class="contact-location">Pilot High School SIAKH</p>
+          <p class="contact-phone">📞 +92 300 9768559</p>
+        </div>
+      </div>
+      
+      <div class="contact-card">
+        <div class="contact-icon">👨‍🏫</div>
+        <div class="contact-info">
+          <h4>Afzal Hussain Shah</h4>
+          <p class="contact-role">Elementary Teacher</p>
+          <p class="contact-location">Pilot High School SIAKH</p>
+          <p class="contact-phone">📞 +92 300 9549326</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <script src="script.js"></script>
+</body>
+</html> 

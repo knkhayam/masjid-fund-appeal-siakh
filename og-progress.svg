@@ -1,0 +1,44 @@
+<svg width="1200" height="630" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="1200" height="630" fill="#111111"/>
+  
+  <!-- Header -->
+  <text x="600" y="80" text-anchor="middle" font-family="Arial, sans-serif" font-size="48" font-weight="bold" fill="#FFD700">
+    MASJID FUNDRAISER APPEAL
+  </text>
+  
+  <!-- Subtitle -->
+  <text x="600" y="130" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" fill="#FFFFFF">
+    Government Pilot Secondary School SIAKH
+  </text>
+  
+  <!-- Progress Circle -->
+  <g transform="translate(600, 350)">
+    <!-- Background circle -->
+    <circle cx="0" cy="0" r="120" fill="none" stroke="#333333" stroke-width="20"/>
+    
+    <!-- Progress circle -->
+    <circle cx="0" cy="0" r="120" fill="none" stroke="#FFD700" stroke-width="20" 
+            stroke-dasharray="753.9822368615503" stroke-dashoffset="548.2300419433456" stroke-linecap="round">
+      <animate attributeName="stroke-dashoffset" from="753.9822368615503" to="548.2300419433456" dur="2s" fill="freeze"/>
+    </circle>
+    
+    <!-- Progress text -->
+    <text x="0" y="-20" text-anchor="middle" font-family="Arial, sans-serif" font-size="32" font-weight="bold" fill="#FFD700">
+      27%
+    </text>
+    <text x="0" y="20" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" fill="#FFFFFF">
+      Complete
+    </text>
+  </g>
+  
+  <!-- Amount raised -->
+  <text x="600" y="520" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" fill="#FFFFFF">
+    Raised: Rs 1,550,000 / Rs 5,680,000
+  </text>
+  
+  <!-- Quote -->
+  <text x="600" y="580" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" fill="#CCCCCC" font-style="italic">
+    "Whoever builds a masjid for Allah, Allah will build for him a house like it in Paradise"
+  </text>
+</svg>

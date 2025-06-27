@@ -1,0 +1,12 @@
+[
+  {"item": "Bricks", "requirement": "50,000", "price": 500000},
+  {"item": "Cement", "requirement": "1,000 bags", "price": 800000},
+  {"item": "Steel", "requirement": "10 tons", "price": 1200000},
+  {"item": "Lantern", "requirement": "Full roof", "price": 1000000},
+  {"item": "Paint", "requirement": "Full building", "price": 400000},
+  {"item": "Tiles", "requirement": "All floors", "price": 600000},
+  {"item": "Windows & Doors", "requirement": "All", "price": 380000},
+  {"item": "Electrical", "requirement": "Full wiring", "price": 300000},
+  {"item": "Plumbing", "requirement": "Full building", "price": 200000},
+  {"item": "Miscellaneous", "requirement": "Other costs", "price": 300000}
+] 
