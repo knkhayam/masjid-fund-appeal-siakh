@@ -226,7 +226,7 @@ class ImageSlider {
 }
 
 // Load and render contributions
-fetch('contributions.json?v=3')
+fetch('contributions.json?v=4')
   .then(res => res.json())
   .then(data => {
     const tbody = document.querySelector('#contributions-table tbody');
@@ -242,7 +242,7 @@ fetch('contributions.json?v=3')
   });
 
 // Load and render expenses
-fetch('expenses.json?v=3')
+fetch('expenses.json?v=4')
   .then(res => res.json())
   .then(data => {
     const tbody = document.querySelector('#expenses-table tbody');
