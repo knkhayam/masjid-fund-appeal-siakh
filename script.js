@@ -249,7 +249,7 @@ fetch('expenses.json')
     let total = 0;
     data.forEach(row => {
       const tr = document.createElement('tr');
-      tr.innerHTML = `<td>${row.item}</td><td>${row.requirement}</td><td>${formatPKR(row.price)}</td>`;
+      tr.innerHTML = `<td>${row.item}</td><td>${formatPKR(row.price)}</td>`;
       tbody.appendChild(tr);
       total += row.price;
     });
