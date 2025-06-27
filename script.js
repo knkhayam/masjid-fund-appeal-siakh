@@ -226,7 +226,7 @@ class ImageSlider {
 }
 
 // Load and render contributions
-fetch('contributions.json')
+fetch('contributions.json?v=1')
   .then(res => res.json())
   .then(data => {
     const tbody = document.querySelector('#contributions-table tbody');
