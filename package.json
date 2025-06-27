@@ -1,0 +1,18 @@
+{
+  "name": "masjid-fund-appeal-siakh",
+  "version": "1.0.0",
+  "description": "Masjid Fundraiser Appeal for Government Pilot Secondary School SIAKH",
+  "main": "index.html",
+  "scripts": {
+    "update-og": "node update-og-png.js",
+    "update-og-svg": "node update-og-svg.js",
+    "convert-svg-to-png": "node svg-to-png-converter.js"
+  },
+  "dependencies": {
+    "canvas": "^2.11.2",
+    "puppeteer": "^21.5.2"
+  },
+  "keywords": ["masjid", "fundraiser", "appeal", "siakh"],
+  "author": "",
+  "license": "MIT"
+} 
