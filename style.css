@@ -1019,4 +1019,13 @@ tfoot td {
 .phase-progress-fill.upcoming {
   background: #555;
   width: 0% !important;
+}
+
+.phase-progress-text {
+  text-align: center;
+  font-size: 0.9rem;
+  font-weight: bold;
+  margin-top: 0.5rem;
+  color: #FFD700;
+  text-shadow: 0 0 4px rgba(255, 215, 0, 0.3);
 } 

@@ -281,7 +281,7 @@ fetch('work-phases.json?v=1')
     // Load contributions and expenses to calculate in-progress phase spending
     Promise.all([
       fetch('contributions.json?v=13').then(res => res.json()),
-      fetch('expenses.json?v=6').then(res => res.json())
+      fetch('expenses.json?v=13').then(res => res.json())
     ]).then(([contributions, expenses]) => {
       // Calculate total contributions
       const totalContributions = contributions.reduce((sum, c) => sum + c.amount, 0);
@@ -369,6 +369,7 @@ fetch('work-phases.json?v=1')
             <div class="phase-progress-bar">
               <div class="phase-progress-fill ${phase.status}" style="width: ${progressPercentage}%"></div>
             </div>
+            <div class="phase-progress-text">${progressPercentage.toFixed(1)}%</div>
           </div>
         `;
         
