@@ -242,7 +242,7 @@ fetch('contributions.json?v=4')
   });
 
 // Load and render expenses
-fetch('expenses.json?v=6')
+fetch('expenses.json?v=7')
   .then(res => res.json())
   .then(data => {
     const tbody = document.querySelector('#expenses-table tbody');
@@ -258,7 +258,7 @@ fetch('expenses.json?v=6')
     document.getElementById('donation-target').textContent = formatPKR(target);//formatPKR(total);
     document.getElementById('target-progress').textContent = formatPKR(target);
     // Update progress bar
-    fetch('contributions.json?v=6')
+    fetch('contributions.json?v=7')
       .then(res => res.json())
       .then(contribs => {
         let raised = contribs.reduce((sum, c) => sum + c.amount, 0);
@@ -281,7 +281,7 @@ fetch('work-phases.json?v=1')
     // Load contributions and expenses to calculate in-progress phase spending
     Promise.all([
       fetch('contributions.json?v=13').then(res => res.json()),
-      fetch('expenses.json?v=13').then(res => res.json())
+      fetch('expenses.json?v=14').then(res => res.json())
     ]).then(([contributions, expenses]) => {
       // Calculate total contributions
       const totalContributions = contributions.reduce((sum, c) => sum + c.amount, 0);
