@@ -112,6 +112,60 @@ header h2 {
   font-style: italic;
 }
 
+/* Inauguration Section Styles */
+.inauguration-section {
+  margin: 2rem auto;
+  max-width: 900px;
+  background: #181818;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+}
+
+.inauguration-container {
+  text-align: center;
+}
+
+.inauguration-container h3 {
+  color: #FFD700;
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  font-weight: bold;
+}
+
+.inauguration-image-wrapper {
+  margin: 1.5rem 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.inauguration-image {
+  max-width: 100%;
+  max-height: 500px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+  border: 4px solid #FFD700;
+  background: #111;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.inauguration-image:hover {
+  transform: scale(1.02);
+  box-shadow: 0 12px 40px rgba(255, 215, 0, 0.3);
+}
+
+.inauguration-caption {
+  font-size: 1.1rem;
+  color: #ccc;
+  margin-top: 1rem;
+  font-style: italic;
+  text-align: center;
+}
+
 .featured-image {
   display: flex;
   justify-content: center;
@@ -576,6 +630,19 @@ tfoot td {
     padding: 1rem;
   }
   
+  .inauguration-section {
+    margin: 1rem;
+    padding: 1rem;
+  }
+  
+  .inauguration-container h3 {
+    font-size: 1.5rem;
+  }
+  
+  .inauguration-image {
+    max-height: 350px;
+  }
+  
   .featured-image {
     min-height: 300px;
     padding: 1rem 0;
@@ -737,6 +804,22 @@ tfoot td {
   
   .content-section {
     padding: 1rem;
+  }
+  
+  .inauguration-section {
+    padding: 1rem;
+  }
+  
+  .inauguration-container h3 {
+    font-size: 1.3rem;
+  }
+  
+  .inauguration-image {
+    max-height: 250px;
+  }
+  
+  .inauguration-caption {
+    font-size: 1rem;
   }
   
   .english-content h3, .urdu-content h3 {
@@ -981,7 +1064,7 @@ tfoot td {
   100% {
     box-shadow: 0 0 0 0 rgba(255, 215, 0, 0);
   }
-}
+} 
 
 /* Phase Progress Bar Styles */
 .phase-progress-container {
