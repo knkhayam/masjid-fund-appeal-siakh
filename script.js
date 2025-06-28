@@ -278,56 +278,92 @@ fetch('work-phases.json?v=1')
     // Sort phases by order
     const sortedPhases = data.phases.sort((a, b) => a.order - b.order);
     
-    // Calculate completion percentage
-    const totalPhases = sortedPhases.length;
-    let completedPhases = 0;
-    
-    sortedPhases.forEach(phase => {
-      if (phase.status === 'completed') completedPhases++;
-    });
-    
-    // Calculate percentage
-    const completionPercentage = (100 * completedPhases / totalPhases).toFixed(1);
-    phasesPercentage.textContent = `(${completionPercentage}%)`;
-    
-    // Create progress bar steps
-    sortedPhases.forEach((phase, index) => {
-      // Create step element
-      const stepDiv = document.createElement('div');
-      stepDiv.className = `phase-step ${phase.status}`;
+    // Load contributions and expenses to calculate in-progress phase spending
+    Promise.all([
+      fetch('contributions.json?v=4').then(res => res.json()),
+      fetch('expenses.json?v=6').then(res => res.json())
+    ]).then(([contributions, expenses]) => {
+      // Calculate total contributions
+      const totalContributions = contributions.reduce((sum, c) => sum + c.amount, 0);
       
-      const circleDiv = document.createElement('div');
-      circleDiv.className = 'phase-circle';
-      circleDiv.textContent = phase.order;
+      // Calculate total spent on completed phases
+      const completedPhasesSpent = sortedPhases
+        .filter(phase => phase.status === 'completed')
+        .reduce((sum, phase) => sum + (phase.actual || 0), 0);
       
-      stepDiv.appendChild(circleDiv);
-      phasesProgressBar.appendChild(stepDiv);
+      // Find the in-progress phase
+      const inProgressPhase = sortedPhases.find(phase => phase.status === 'in_progress');
       
-      // Create phase card
-      const cardDiv = document.createElement('div');
-      cardDiv.className = `phase-card ${phase.status}`;
+      // Calculate completion percentage including in-progress phase progress
+      const totalPhases = sortedPhases.length;
+      let completedPhases = 0;
+      let inProgressContribution = 0;
       
-      const estimatedValue = phase.estimated ? formatPKR(phase.estimated) : 'TBD';
-      const actualValue = phase.actual ? formatPKR(phase.actual) : 'TBD';
-      const statusText = phase.status.replace('_', ' ').toUpperCase();
+      sortedPhases.forEach(phase => {
+        if (phase.status === 'completed') {
+          completedPhases++;
+        } else if (phase.status === 'in_progress' && phase.estimated) {
+          // Calculate progress contribution for in-progress phase
+          const remainingAmount = totalContributions - completedPhasesSpent;
+          const spentAmount = Math.max(0, Math.min(remainingAmount, phase.estimated));
+          const phaseProgress = Math.min(1, spentAmount / phase.estimated);
+          inProgressContribution = phaseProgress;
+        }
+      });
       
-      cardDiv.innerHTML = `
-        <h4>Phase ${phase.order}: ${phase.name}</h4>
-        <p class="phase-description">${phase.description}</p>
-        <div class="phase-financials">
-          <div class="phase-estimated">
-            <div class="phase-estimated-label">Estimated:</div>
-            <div class="phase-estimated-value">${estimatedValue}</div>
+      // Calculate overall completion percentage
+      const completionPercentage = ((completedPhases + inProgressContribution) / totalPhases * 100).toFixed(1);
+      phasesPercentage.textContent = `(${completionPercentage}%)`;
+      
+      // Create progress bar steps
+      sortedPhases.forEach((phase, index) => {
+        // Create step element
+        const stepDiv = document.createElement('div');
+        stepDiv.className = `phase-step ${phase.status}`;
+        
+        const circleDiv = document.createElement('div');
+        circleDiv.className = 'phase-circle';
+        circleDiv.textContent = phase.order;
+        
+        stepDiv.appendChild(circleDiv);
+        phasesProgressBar.appendChild(stepDiv);
+        
+        // Create phase card
+        const cardDiv = document.createElement('div');
+        cardDiv.className = `phase-card ${phase.status}`;
+        
+        const estimatedValue = phase.estimated ? formatPKR(phase.estimated) : 'TBD';
+        let actualValue = 'TBD';
+        
+        if (phase.status === 'completed') {
+          actualValue = phase.actual ? formatPKR(phase.actual) : 'TBD';
+        } else if (phase.status === 'in_progress' && phase.estimated) {
+          // Calculate remaining amount for in-progress phase
+          const remainingAmount = totalContributions - completedPhasesSpent;
+          const spentAmount = Math.max(0, Math.min(remainingAmount, phase.estimated));
+          actualValue = formatPKR(spentAmount);
+        }
+        
+        const statusText = phase.status.replace('_', ' ').toUpperCase();
+        
+        cardDiv.innerHTML = `
+          <h4>Phase ${phase.order}: ${phase.name}</h4>
+          <p class="phase-description">${phase.description}</p>
+          <div class="phase-financials">
+            <div class="phase-estimated">
+              <div class="phase-estimated-label">Estimated:</div>
+              <div class="phase-estimated-value">${estimatedValue}</div>
+            </div>
+            <div class="phase-actual">
+              <div class="phase-actual-label">Actual Spent:</div>
+              <div class="phase-actual-value">${actualValue}</div>
+            </div>
           </div>
-          <div class="phase-actual">
-            <div class="phase-actual-label">Actual Spent:</div>
-            <div class="phase-actual-value">${actualValue}</div>
-          </div>
-        </div>
-        <div class="phase-status ${phase.status}">${statusText}</div>
-      `;
-      
-      phasesDetails.appendChild(cardDiv);
+          <div class="phase-status ${phase.status}">${statusText}</div>
+        `;
+        
+        phasesDetails.appendChild(cardDiv);
+      });
     });
   })
   .catch(error => {
