@@ -1,0 +1,58 @@
+{
+  "phases": [
+    {
+      "id": 1,
+      "name": "Foundation",
+      "description": "Foundation work including excavation, concrete, and structural base",
+      "estimated": 800000,
+      "actual": 817000,
+      "status": "completed",
+      "order": 1
+    },
+    {
+      "id": 2,
+      "name": "Water + Walls + Roof",
+      "description": "Water system installation, wall construction, and roof structure",
+      "estimated": 2450000,
+      "actual": null,
+      "status": "in_progress",
+      "order": 2
+    },
+    {
+      "id": 3,
+      "name": "Plaster + Floor + Minaret",
+      "description": "Interior and exterior plastering, floor finishing, and minaret construction",
+      "estimated": null,
+      "actual": null,
+      "status": "upcoming",
+      "order": 3
+    },
+    {
+      "id": 4,
+      "name": "Washroom + Tile + Ceiling",
+      "description": "Washroom construction, tile installation, and ceiling work",
+      "estimated": null,
+      "actual": null,
+      "status": "upcoming",
+      "order": 4
+    },
+    {
+      "id": 5,
+      "name": "Doors + Windows + Electricity + Appliances",
+      "description": "Door and window installation, electrical work, and appliance setup",
+      "estimated": null,
+      "actual": null,
+      "status": "upcoming",
+      "order": 5
+    },
+    {
+      "id": 6,
+      "name": "Carpet + Sound System",
+      "description": "Carpet installation and sound system setup for prayers",
+      "estimated": null,
+      "actual": null,
+      "status": "upcoming",
+      "order": 6
+    }
+  ]
+} 

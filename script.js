@@ -267,6 +267,73 @@ fetch('expenses.json?v=6')
       });
   });
 
+// Load and render work phases
+fetch('work-phases.json?v=1')
+  .then(res => res.json())
+  .then(data => {
+    const phasesProgressBar = document.getElementById('phases-progress-bar');
+    const phasesDetails = document.getElementById('phases-details');
+    const phasesPercentage = document.getElementById('phases-percentage');
+    
+    // Sort phases by order
+    const sortedPhases = data.phases.sort((a, b) => a.order - b.order);
+    
+    // Calculate completion percentage
+    const totalPhases = sortedPhases.length;
+    let completedPhases = 0;
+    
+    sortedPhases.forEach(phase => {
+      if (phase.status === 'completed') completedPhases++;
+    });
+    
+    // Calculate percentage
+    const completionPercentage = (100 * completedPhases / totalPhases).toFixed(1);
+    phasesPercentage.textContent = `(${completionPercentage}%)`;
+    
+    // Create progress bar steps
+    sortedPhases.forEach((phase, index) => {
+      // Create step element
+      const stepDiv = document.createElement('div');
+      stepDiv.className = `phase-step ${phase.status}`;
+      
+      const circleDiv = document.createElement('div');
+      circleDiv.className = 'phase-circle';
+      circleDiv.textContent = phase.order;
+      
+      stepDiv.appendChild(circleDiv);
+      phasesProgressBar.appendChild(stepDiv);
+      
+      // Create phase card
+      const cardDiv = document.createElement('div');
+      cardDiv.className = `phase-card ${phase.status}`;
+      
+      const estimatedValue = phase.estimated ? formatPKR(phase.estimated) : 'TBD';
+      const actualValue = phase.actual ? formatPKR(phase.actual) : 'TBD';
+      const statusText = phase.status.replace('_', ' ').toUpperCase();
+      
+      cardDiv.innerHTML = `
+        <h4>Phase ${phase.order}: ${phase.name}</h4>
+        <p class="phase-description">${phase.description}</p>
+        <div class="phase-financials">
+          <div class="phase-estimated">
+            <div class="phase-estimated-label">Estimated:</div>
+            <div class="phase-estimated-value">${estimatedValue}</div>
+          </div>
+          <div class="phase-actual">
+            <div class="phase-actual-label">Actual Spent:</div>
+            <div class="phase-actual-value">${actualValue}</div>
+          </div>
+        </div>
+        <div class="phase-status ${phase.status}">${statusText}</div>
+      `;
+      
+      phasesDetails.appendChild(cardDiv);
+    });
+  })
+  .catch(error => {
+    console.error('Error loading work phases:', error);
+  });
+
 // Initialize everything when DOM is loaded
 window.addEventListener('DOMContentLoaded', () => {
   // Initialize image slider
