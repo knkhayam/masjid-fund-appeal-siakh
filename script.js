@@ -280,7 +280,7 @@ fetch('work-phases.json?v=1')
     
     // Load contributions and expenses to calculate in-progress phase spending
     Promise.all([
-      fetch('contributions.json?v=4').then(res => res.json()),
+      fetch('contributions.json?v=13').then(res => res.json()),
       fetch('expenses.json?v=6').then(res => res.json())
     ]).then(([contributions, expenses]) => {
       // Calculate total contributions
@@ -334,14 +334,19 @@ fetch('work-phases.json?v=1')
         
         const estimatedValue = phase.estimated ? formatPKR(phase.estimated) : 'TBD';
         let actualValue = 'TBD';
+        let progressPercentage = 0;
         
         if (phase.status === 'completed') {
           actualValue = phase.actual ? formatPKR(phase.actual) : 'TBD';
+          progressPercentage = 100;
         } else if (phase.status === 'in_progress' && phase.estimated) {
           // Calculate remaining amount for in-progress phase
           const remainingAmount = totalContributions - completedPhasesSpent;
           const spentAmount = Math.max(0, Math.min(remainingAmount, phase.estimated));
           actualValue = formatPKR(spentAmount);
+          progressPercentage = Math.min(100, (spentAmount / phase.estimated) * 100);
+        } else if (phase.status === 'upcoming') {
+          progressPercentage = 0;
         }
         
         const statusText = phase.status.replace('_', ' ').toUpperCase();
@@ -360,6 +365,11 @@ fetch('work-phases.json?v=1')
             </div>
           </div>
           <div class="phase-status ${phase.status}">${statusText}</div>
+          <div class="phase-progress-container">
+            <div class="phase-progress-bar">
+              <div class="phase-progress-fill ${phase.status}" style="width: ${progressPercentage}%"></div>
+            </div>
+          </div>
         `;
         
         phasesDetails.appendChild(cardDiv);
