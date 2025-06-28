@@ -7,7 +7,7 @@ const expenses = JSON.parse(fs.readFileSync('expenses.json', 'utf8'));
 
 // Calculate totals
 const totalRaised = contributions.reduce((sum, c) => sum + c.amount, 0);
-const totalTarget = expenses.reduce((sum, e) => sum + e.price, 0);
+const totalTarget = 6500000;//expenses.reduce((sum, e) => sum + e.price, 0);
 const percentage = Math.min(100, (totalRaised / totalTarget) * 100);
 
 // Format amounts for display
