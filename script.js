@@ -102,6 +102,7 @@ class ImageSlider {
     // List of images and videos
     const mediaItems = [
       // 3d-mpas
+      { src: 'images/inauguration.jpeg', type: 'image' },
       { src: 'images/3d-mpas/WhatsApp Image 2025-06-19 at 4.00.07 PM.jpeg', type: 'image' },
       { src: 'images/3d-mpas/WhatsApp Image 2025-06-19 at 4.00.06 PM (1).jpeg', type: 'image' },
       { src: 'images/3d-mpas/WhatsApp Image 2025-06-19 at 4.00.06 PM.jpeg', type: 'image' },
@@ -226,7 +227,7 @@ class ImageSlider {
 }
 
 // Load and render contributions
-fetch('contributions.json?v=4')
+fetch('contributions.json?v=5')
   .then(res => res.json())
   .then(data => {
     const tbody = document.querySelector('#contributions-table tbody');

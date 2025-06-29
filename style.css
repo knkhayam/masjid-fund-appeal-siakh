@@ -250,7 +250,7 @@ header h2 {
 .slider-track {
   display: flex;
   transition: transform 0.5s ease-in-out;
-  height: 400px;
+  height: 800px;
 }
 
 .slider-track img, .slider-track video {
