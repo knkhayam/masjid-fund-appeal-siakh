@@ -1105,10 +1105,177 @@ tfoot td {
 }
 
 .phase-progress-text {
-  text-align: center;
   font-size: 0.9rem;
+  color: #FFD700;
   font-weight: bold;
   margin-top: 0.5rem;
+}
+
+/* Important Message Card Styles */
+.phase-important-message {
+  background: linear-gradient(135deg, #1a1a2e, #16213e);
+  border: 3px solid #FFD700;
+  border-radius: 12px;
+  padding: 2rem;
+  margin: 2rem 0;
+  box-shadow: 0 8px 32px rgba(255, 215, 0, 0.3);
+  position: relative;
+  overflow: hidden;
+  animation: glow 2s ease-in-out infinite alternate;
+}
+
+.phase-important-message::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #FFD700, #FFA500, #FFD700);
+  animation: shimmer 3s ease-in-out infinite;
+}
+
+@keyframes glow {
+  from {
+    box-shadow: 0 8px 32px rgba(255, 215, 0, 0.3);
+  }
+  to {
+    box-shadow: 0 8px 32px rgba(255, 215, 0, 0.6);
+  }
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.message-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.message-header h3 {
   color: #FFD700;
-  text-shadow: 0 0 4px rgba(255, 215, 0, 0.3);
+  font-size: 1.8rem;
+  margin: 0 0 0.5rem 0;
+  font-family: 'Jameel Noori Nastaleeq', serif;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+
+.message-subtitle {
+  color: #fff;
+  font-size: 1.1rem;
+  opacity: 0.9;
+  font-weight: 500;
+}
+
+.message-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.urdu-message {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  padding: 1.5rem;
+  border-left: 4px solid #FFD700;
+}
+
+.urdu-message p {
+  color: #fff;
+  font-family: 'Jameel Noori Nastaleeq', serif;
+  font-size: 1.1rem;
+  line-height: 1.8;
+  margin: 0 0 1rem 0;
+  text-align: right;
+}
+
+.urdu-message p:last-child {
+  margin-bottom: 0;
+}
+
+.urdu-message strong {
+  color: #FFD700;
+  font-weight: bold;
+}
+
+.message-actions {
+  text-align: center;
+}
+
+.donate-urgent-btn {
+  background: linear-gradient(135deg, #FFD700, #FFA500);
+  color: #000;
+  border: none;
+  padding: 1rem 2rem;
+  border-radius: 50px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
+  font-family: 'Jameel Noori Nastaleeq', serif;
+}
+
+.donate-urgent-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 215, 0, 0.6);
+  background: linear-gradient(135deg, #FFA500, #FFD700);
+}
+
+.donate-urgent-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 10px rgba(255, 215, 0, 0.4);
+}
+
+/* Mobile Responsive for Important Message */
+@media (max-width: 768px) {
+  .phase-important-message {
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+  }
+  
+  .message-header h3 {
+    font-size: 1.5rem;
+  }
+  
+  .message-subtitle {
+    font-size: 1rem;
+  }
+  
+  .urdu-message {
+    padding: 1rem;
+  }
+  
+  .urdu-message p {
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+  
+  .donate-urgent-btn {
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .phase-important-message {
+    padding: 1rem;
+    margin: 1rem 0;
+  }
+  
+  .message-header h3 {
+    font-size: 1.3rem;
+  }
+  
+  .urdu-message p {
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+  
+  .donate-urgent-btn {
+    padding: 0.7rem 1.2rem;
+    font-size: 0.9rem;
+  }
 } 
