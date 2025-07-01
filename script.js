@@ -15,26 +15,17 @@ function openImageModal(imageSrc, caption) {
   
   // Prevent body scroll
   document.body.style.overflow = 'hidden';
-  
-  // Close modal on background click
-  modal.onclick = function(e) {
-    if (e.target === modal) {
-      closeImageModal();
-    }
-  };
-  
-  // Close modal on escape key
-  document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') {
-      closeImageModal();
-    }
-  });
 }
 
 function closeImageModal() {
   const modal = document.getElementById('imageModal');
   modal.style.display = 'none';
   document.body.style.overflow = 'auto';
+  
+  // Remove modal from browser history if it was added
+  if (window.location.hash === '#modal') {
+    window.history.back();
+  }
 }
 
 // Copy to clipboard functionality
@@ -543,6 +534,43 @@ window.addEventListener('DOMContentLoaded', () => {
   const shareBtn = document.getElementById('share-btn');
   if (shareBtn) {
     shareBtn.addEventListener('click', sharePage);
+  }
+  
+  // Setup image modal events
+  const modal = document.getElementById('imageModal');
+  if (modal) {
+    // Close modal on any click (background, image, or caption)
+    modal.addEventListener('click', function(e) {
+      closeImageModal();
+    });
+    
+    // Close modal on escape key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && modal.style.display === 'block') {
+        closeImageModal();
+      }
+    });
+    
+    // Handle browser back button for mobile
+    let modalOpened = false;
+    const originalOpenImageModal = openImageModal;
+    openImageModal = function(imageSrc, caption) {
+      originalOpenImageModal(imageSrc, caption);
+      modalOpened = true;
+      
+      // Add to browser history
+      const currentUrl = window.location.href;
+      const modalUrl = currentUrl + '#modal';
+      window.history.pushState({ modal: true }, '', modalUrl);
+    };
+    
+    // Listen for popstate (back button)
+    window.addEventListener('popstate', function(e) {
+      if (modalOpened && modal.style.display === 'block') {
+        closeImageModal();
+        modalOpened = false;
+      }
+    });
   }
   
   // Add click event to payment section for better UX
