@@ -107,15 +107,9 @@
   
   <section class="contributions-table-section">
     <h3>Contributions</h3>
-    <table id="contributions-table">
-      <thead>
-        <tr><th>Name</th><th>Date</th><th>Amount (PKR)</th></tr>
-      </thead>
-      <tbody></tbody>
-      <tfoot>
-        <tr><td colspan="2">Total</td><td id="contributions-total"></td></tr>
-      </tfoot>
-    </table>
+    <div id="contributions-accordion" class="contributions-accordion">
+      <!-- Accordion items will be generated here -->
+    </div>
   </section>
   
   <section class="expenses-table-section">
@@ -189,7 +183,7 @@
     <div class="contact-cards">
       <div class="contact-card">
         <div class="contact-image">
-          <img src="images/contacts/master jahangir.jpeg" alt="Muhammad Jahangir" class="contact-photo">
+          <img src="images/contacts/master jahangir.jpeg" alt="Muhammad Jahangir" class="contact-photo" onclick="openImageModal(this.src, 'Muhammad Jahangir')">
         </div>
         <div class="contact-info">
           <h4>Muhammad Jahangir</h4>
@@ -201,7 +195,7 @@
       
       <div class="contact-card">
         <div class="contact-image">
-          <img src="images/contacts/amjad mehmood.jpeg" alt="Amjad Mahmood" class="contact-photo">
+          <img src="images/contacts/amjad mehmood.jpeg" alt="Amjad Mahmood" class="contact-photo" onclick="openImageModal(this.src, 'Amjad Mahmood')">
         </div>
         <div class="contact-info">
           <h4>Amjad Mahmood</h4>
@@ -213,7 +207,7 @@
       
       <div class="contact-card">
         <div class="contact-image">
-          <img src="images/contacts/afzal hussain.jpeg" alt="Afzal Hussain Shah" class="contact-photo">
+          <img src="images/contacts/afzal hussain.jpeg" alt="Afzal Hussain Shah" class="contact-photo" onclick="openImageModal(this.src, 'Afzal Hussain Shah')">
         </div>
         <div class="contact-info">
           <h4>Afzal Hussain Shah</h4>
@@ -224,7 +218,16 @@
       </div>
     </div>
   </section>
+
+  <!-- Image Modal -->
+  <div id="imageModal" class="image-modal">
+    <div class="modal-content">
+      <span class="close-modal" onclick="closeImageModal()">&times;</span>
+      <img id="modalImage" src="" alt="Contact Photo">
+      <div id="modalCaption"></div>
+    </div>
+  </div>
   
-  <script src="script.js?v=19"></script>
+  <script src="script.js?v=20"></script>
 </body>
 </html> 

@@ -3,6 +3,40 @@ function formatPKR(num) {
   return num.toLocaleString('en-PK', { style: 'currency', currency: 'PKR', maximumFractionDigits: 0 });
 }
 
+// Image Modal Functions
+function openImageModal(imageSrc, caption) {
+  const modal = document.getElementById('imageModal');
+  const modalImage = document.getElementById('modalImage');
+  const modalCaption = document.getElementById('modalCaption');
+  
+  modalImage.src = imageSrc;
+  modalCaption.textContent = caption;
+  modal.style.display = 'block';
+  
+  // Prevent body scroll
+  document.body.style.overflow = 'hidden';
+  
+  // Close modal on background click
+  modal.onclick = function(e) {
+    if (e.target === modal) {
+      closeImageModal();
+    }
+  };
+  
+  // Close modal on escape key
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      closeImageModal();
+    }
+  });
+}
+
+function closeImageModal() {
+  const modal = document.getElementById('imageModal');
+  modal.style.display = 'none';
+  document.body.style.overflow = 'auto';
+}
+
 // Copy to clipboard functionality
 function copyToClipboard(text) {
   navigator.clipboard.writeText(text).then(() => {
@@ -226,19 +260,99 @@ class ImageSlider {
   }
 }
 
-// Load and render contributions
+// Load and render contributions with accordion
 fetch('contributions.json?v=6')
   .then(res => res.json())
   .then(data => {
-    const tbody = document.querySelector('#contributions-table tbody');
+    const accordionContainer = document.getElementById('contributions-accordion');
     let total = 0;
+    
+    // Group contributions by month
+    const monthlyGroups = {};
     data.forEach(row => {
-      const tr = document.createElement('tr');
-      tr.innerHTML = `<td>${row.name}</td><td>${row.date}</td><td>${formatPKR(row.amount)}</td>`;
-      tbody.appendChild(tr);
+      const date = new Date(row.date.split('/').reverse().join('-'));
+      const monthKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+      const monthName = date.toLocaleDateString('en-US', { year: 'numeric', month: 'long' });
+      
+      if (!monthlyGroups[monthKey]) {
+        monthlyGroups[monthKey] = {
+          monthName: monthName,
+          contributions: [],
+          total: 0
+        };
+      }
+      
+      monthlyGroups[monthKey].contributions.push(row);
+      monthlyGroups[monthKey].total += row.amount;
       total += row.amount;
     });
-    document.getElementById('contributions-total').textContent = formatPKR(total);
+    
+    // Sort months in descending order (latest first)
+    const sortedMonths = Object.keys(monthlyGroups).sort().reverse();
+    
+    // Create accordion items
+    sortedMonths.forEach((monthKey, index) => {
+      const monthData = monthlyGroups[monthKey];
+      const isLatest = index === 0; // First month (latest) should be expanded
+      
+      const accordionItem = document.createElement('div');
+      accordionItem.className = 'accordion-item';
+      
+      const accordionHeader = document.createElement('div');
+      accordionHeader.className = `accordion-header ${isLatest ? 'active' : ''}`;
+      accordionHeader.innerHTML = `
+        <div class="accordion-title">
+          <span class="month-name">${monthData.monthName}</span>
+          <span class="month-total">${formatPKR(monthData.total)}</span>
+        </div>
+        <div class="accordion-icon">▼</div>
+      `;
+      
+      const accordionContent = document.createElement('div');
+      accordionContent.className = `accordion-content ${isLatest ? 'active' : ''}`;
+      
+      const table = document.createElement('table');
+      table.className = 'accordion-table';
+      table.innerHTML = `
+        <thead>
+          <tr><th>Name</th><th>Date</th><th>Amount (PKR)</th></tr>
+        </thead>
+        <tbody></tbody>
+      `;
+      
+      const tbody = table.querySelector('tbody');
+      monthData.contributions.forEach(row => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td>${row.name}</td><td>${row.date}</td><td>${formatPKR(row.amount)}</td>`;
+        tbody.appendChild(tr);
+      });
+      
+      accordionContent.appendChild(table);
+      accordionItem.appendChild(accordionHeader);
+      accordionItem.appendChild(accordionContent);
+      accordionContainer.appendChild(accordionItem);
+      
+      // Add click event for accordion toggle
+      accordionHeader.addEventListener('click', () => {
+        const isActive = accordionHeader.classList.contains('active');
+        
+        // Close all other accordion items
+        document.querySelectorAll('.accordion-header').forEach(header => {
+          header.classList.remove('active');
+        });
+        document.querySelectorAll('.accordion-content').forEach(content => {
+          content.classList.remove('active');
+        });
+        
+        // Toggle current item
+        if (!isActive) {
+          accordionHeader.classList.add('active');
+          accordionContent.classList.add('active');
+        }
+      });
+    });
+    
+    // Update total display
     document.getElementById('current-progress').textContent = formatPKR(total);
   });
 
