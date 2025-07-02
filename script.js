@@ -252,7 +252,7 @@ class ImageSlider {
 }
 
 // Load and render contributions with accordion
-fetch('contributions.json?v=7')
+fetch('contributions.json?v=8')
   .then(res => res.json())
   .then(data => {
     const accordionContainer = document.getElementById('contributions-accordion');
@@ -323,6 +323,14 @@ fetch('contributions.json?v=7')
       accordionItem.appendChild(accordionContent);
       accordionContainer.appendChild(accordionItem);
       
+      // Set initial height for the first (latest) month
+      if (isLatest) {
+        setTimeout(() => {
+          const contentHeight = accordionContent.scrollHeight;
+          accordionContent.style.maxHeight = contentHeight + 'px';
+        }, 10);
+      }
+      
       // Add click event for accordion toggle
       accordionHeader.addEventListener('click', () => {
         const isActive = accordionHeader.classList.contains('active');
@@ -333,12 +341,19 @@ fetch('contributions.json?v=7')
         });
         document.querySelectorAll('.accordion-content').forEach(content => {
           content.classList.remove('active');
+          content.style.maxHeight = '0px';
         });
         
         // Toggle current item
         if (!isActive) {
           accordionHeader.classList.add('active');
           accordionContent.classList.add('active');
+          
+          // Calculate and set the actual height needed
+          setTimeout(() => {
+            const contentHeight = accordionContent.scrollHeight;
+            accordionContent.style.maxHeight = contentHeight + 'px';
+          }, 10);
         }
       });
     });
