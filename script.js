@@ -312,7 +312,14 @@ fetch('contributions.json?v=8')
       `;
       
       const tbody = table.querySelector('tbody');
-      monthData.contributions.forEach(row => {
+      // Sort contributions within the month by date (latest first)
+      const sortedContributions = monthData.contributions.sort((a, b) => {
+        const dateA = new Date(a.date.split('/').reverse().join('-'));
+        const dateB = new Date(b.date.split('/').reverse().join('-'));
+        return dateB - dateA; // Descending order (latest first)
+      });
+      
+      sortedContributions.forEach(row => {
         const tr = document.createElement('tr');
         tr.innerHTML = `<td>${row.name}</td><td>${row.date}</td><td>${formatPKR(row.amount)}</td>`;
         tbody.appendChild(tr);
@@ -353,6 +360,16 @@ fetch('contributions.json?v=8')
           setTimeout(() => {
             const contentHeight = accordionContent.scrollHeight;
             accordionContent.style.maxHeight = contentHeight + 'px';
+            
+            // Wait for the expansion animation to complete before scrolling
+            setTimeout(() => {
+              // Scroll to the expanded accordion section
+              accordionHeader.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start',
+                inline: 'nearest'
+              });
+            }, 300); // Wait for CSS transition to complete
           }, 10);
         }
       });
