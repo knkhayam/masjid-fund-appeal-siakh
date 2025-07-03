@@ -252,7 +252,7 @@ class ImageSlider {
 }
 
 // Load and render contributions with accordion
-fetch('contributions.json?v=9')
+fetch('contributions.json?v=10')
   .then(res => res.json())
   .then(data => {
     const accordionContainer = document.getElementById('contributions-accordion');
