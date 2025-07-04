@@ -312,11 +312,27 @@ fetch('contributions.json?v=11')
       `;
       
       const tbody = table.querySelector('tbody');
-      // Sort contributions within the month by date (latest first)
+      // Sort contributions within the month by date (latest first) and preserve original order within same day
       const sortedContributions = monthData.contributions.sort((a, b) => {
         const dateA = new Date(a.date.split('/').reverse().join('-'));
         const dateB = new Date(b.date.split('/').reverse().join('-'));
-        return dateB - dateA; // Descending order (latest first)
+        
+        // If dates are different, sort by date (latest first)
+        if (dateA.getTime() !== dateB.getTime()) {
+          return dateB - dateA; // Descending order (latest first)
+        }
+        
+        // If dates are the same, maintain original order from JSON (bottom entries come first)
+        // Since the JSON is already ordered with latest at bottom, we need to reverse the order
+        // within the same day to show bottom entries first
+        const originalIndexA = data.findIndex(item => 
+          item.name === a.name && item.date === a.date && item.amount === a.amount
+        );
+        const originalIndexB = data.findIndex(item => 
+          item.name === b.name && item.date === b.date && item.amount === b.amount
+        );
+        
+        return originalIndexB - originalIndexA; // Higher index (bottom) comes first
       });
       
       sortedContributions.forEach(row => {
