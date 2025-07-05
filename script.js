@@ -1,4 +1,6 @@
 // Helper to format PKR
+let target = 6500000;
+
 function formatPKR(num) {
   return num.toLocaleString('en-PK', { style: 'currency', currency: 'PKR', maximumFractionDigits: 0 });
 }
@@ -252,7 +254,7 @@ class ImageSlider {
 }
 
 // Load and render contributions with accordion
-fetch('contributions.json?v=12')
+fetch('contributions.json?v=13')
   .then(res => res.json())
   .then(data => {
     const accordionContainer = document.getElementById('contributions-accordion');
@@ -407,7 +409,7 @@ fetch('expenses.json?v=7')
       tbody.appendChild(tr);
       total += row.price;
     });
-    let target = 6500000;
+    
     document.getElementById('expenses-total').textContent = formatPKR(total) + " / " + formatPKR(target);
     document.getElementById('donation-target').textContent = formatPKR(target);//formatPKR(total);
     document.getElementById('target-progress').textContent = formatPKR(target);
@@ -448,26 +450,13 @@ fetch('work-phases.json?v=1')
       // Find the in-progress phase
       const inProgressPhase = sortedPhases.find(phase => phase.status === 'in_progress');
       
-      // Calculate completion percentage including in-progress phase progress
-      const totalPhases = sortedPhases.length;
-      let completedPhases = 0;
-      let inProgressContribution = 0;
+      // Calculate total estimated cost for all phases
+      const totalEstimatedCost = target;
       
-      sortedPhases.forEach(phase => {
-        if (phase.status === 'completed') {
-          completedPhases++;
-        } else if (phase.status === 'in_progress' && phase.estimated) {
-          // Calculate progress contribution for in-progress phase
-          const remainingAmount = totalContributions - completedPhasesSpent;
-          const spentAmount = Math.max(0, Math.min(remainingAmount, phase.estimated));
-          const phaseProgress = Math.min(1, spentAmount / phase.estimated);
-          inProgressContribution = phaseProgress;
-        }
-      });
+      // Calculate financial completion percentage (collected contributions / total estimated)
+      const financialCompletionPercentage = ((totalContributions / totalEstimatedCost) * 100).toFixed(2);
       
-      // Calculate overall completion percentage
-      const completionPercentage = ((completedPhases + inProgressContribution) / totalPhases * 100).toFixed(1);
-      phasesPercentage.textContent = `(${completionPercentage}%)`;
+      phasesPercentage.textContent = `(${financialCompletionPercentage}%)`;
       
       // Create progress bar steps
       sortedPhases.forEach((phase, index) => {
