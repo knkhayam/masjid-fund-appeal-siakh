@@ -254,7 +254,7 @@ class ImageSlider {
 }
 
 // Load and render contributions with accordion
-fetch('contributions.json?v=17')
+fetch('contributions.json?v=18')
   .then(res => res.json())
   .then(data => {
     const accordionContainer = document.getElementById('contributions-accordion');
@@ -398,7 +398,7 @@ fetch('contributions.json?v=17')
   });
 
 // Load and render expenses
-fetch('expenses.json?v=7')
+fetch('expenses.json?v=8')
   .then(res => res.json())
   .then(data => {
     const tbody = document.querySelector('#expenses-table tbody');
