@@ -35,7 +35,7 @@ A modern, responsive website for the Masjid Fundraiser Appeal at Government Pilo
 ### Updating Progress Data
 
 1. **Update Contributions**: Edit `contributions.json` to add new donations
-2. **Update Expenses**: Edit `expenses.json` to modify project requirements
+2. **Update Expenses**: Edit `work-phases.json` to modify project requirements for each phase
 3. **Regenerate Images**: Run one of the update scripts to refresh the Open Graph image:
 
 ```bash
@@ -77,7 +77,7 @@ npm run convert-svg-to-png
 ├── svg-to-png-converter.js # Script to convert SVG to PNG
 ├── package.json            # Node.js dependencies
 ├── contributions.json      # Donation data
-├── expenses.json           # Project expense data
+├── work-phases.json        # Project phases and expenses data
 ├── images/                 # Media files
 │   ├── 3d-mpas/           # 3D model images
 │   ├── current-progress/  # Construction photos

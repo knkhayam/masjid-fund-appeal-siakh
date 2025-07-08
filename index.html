@@ -27,7 +27,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Jameel+Noori+Nastaleeq:wght@400;700&display=swap" rel="stylesheet">
   
-  <link rel="stylesheet" href="style.css?v=21">
+  <link rel="stylesheet" href="style.css?v=26">
 </head>
 <body>
   <!-- Donate Now Button -->
@@ -68,18 +68,7 @@
     </div>
   </section>
   
-  <section class="gallery-slider" id="gallery-slider">
-    <div class="slider-container">
-      <div class="slider-track" id="slider-track">
-        <!-- Images will be loaded here -->
-      </div>
-      <button class="slider-btn prev-btn" id="prev-btn">‹</button>
-      <button class="slider-btn next-btn" id="next-btn">›</button>
-      <div class="slider-dots" id="slider-dots">
-        <!-- Dots will be generated here -->
-      </div>
-    </div>
-  </section>
+
   
   <section class="donation-progress">
     <h3>Donation Target: <span id="donation-target"></span></h3>
@@ -112,18 +101,7 @@
     </div>
   </section>
   
-  <section class="expenses-table-section">
-    <h3>Expenses</h3>
-    <table id="expenses-table">
-      <thead>
-        <tr><th>Item</th><th>Price (PKR)</th></tr>
-      </thead>
-      <tbody></tbody>
-      <tfoot>
-        <tr><td colspan="1">Total</td><td id="expenses-total"></td></tr>
-      </tfoot>
-    </table>
-  </section>
+
   
   <!-- Prominent Payment Details Section -->
   <section class="payment-details-section" id="payment-details">
@@ -227,7 +205,46 @@
       <div id="modalCaption"></div>
     </div>
   </div>
+
+  <!-- Phase Details Modal -->
+  <div id="phaseModal" class="phase-modal">
+    <div class="modal-content">
+      <span class="close-modal" onclick="closePhaseModal()">&times;</span>
+      <div class="phase-modal-header">
+        <h2 id="phaseModalTitle"></h2>
+        <p id="phaseModalDescription"></p>
+      </div>
+      
+      <div class="phase-modal-content">
+        <div class="phase-gallery-slider">
+          <div class="phase-slider-track" id="phase-slider-track">
+            <!-- Phase images will be loaded here -->
+          </div>
+          <button class="phase-slider-btn prev-btn" id="phase-prev-btn">‹</button>
+          <button class="phase-slider-btn next-btn" id="phase-next-btn">›</button>
+          <div class="phase-slider-dots" id="phase-slider-dots">
+            <!-- Dots will be generated here -->
+          </div>
+        </div>
+        
+        <div class="phase-expenses-section">
+          <h3>💰 Phase Expenses</h3>
+          <div class="phase-expenses-container">
+            <table id="phase-expenses-table">
+              <thead>
+                <tr><th>Item</th><th>Price (PKR)</th></tr>
+              </thead>
+              <tbody></tbody>
+              <tfoot>
+                <tr><td colspan="1">Total</td><td id="phase-expenses-total"></td></tr>
+              </tfoot>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
   
-  <script src="script.js?v=33"></script>
+  <script src="script.js?v=41"></script>
 </body>
 </html> 

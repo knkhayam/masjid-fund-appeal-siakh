@@ -5,18 +5,42 @@
       "name": "Foundation",
       "description": "Foundation work including excavation, concrete, and structural base",
       "estimated": 800000,
-      "actual": 817000,
+      "actual": 1180000,
       "status": "completed",
-      "order": 1
+      "order": 1,
+      "expenses": [
+        {"item": "نقشہ نویس", "price": 25000},
+        {"item": "کٹوتی بنک چیک بک", "price": 1250},
+        {"item": "(مشین سے)مزدوری بنیادوں کا خرچہ", "price": 20000},
+        {"item": "مزدوری 5 مزدور بنیادوں کی کھدائی", "price": 10000},
+        {"item": "مزدوری سریا بنیادوں کے بیم وغیرہ", "price": 10000},
+        {"item": "سریا اور سیمنٹ وغیرہ", "price": 463000},
+        {"item": "بجری 4 ٹرالی 15000", "price": 60000},
+        {"item": "بجری (بڑا سائز) 2 ٹرالی 12000", "price": 24000},
+        {"item": "ریت 2 ٹرالی 18000", "price": 18000},
+        {"item": "ریت 1 ٹرالی 9000", "price": 9000},
+        {"item": "مزدوری لینٹر مشین( بنیادوں کی بھرائی)", "price": 25000},
+        {"item": "مزدوری 2 مستری 1 مزدور", "price": 5500},
+        {"item": "مزدوری مستری بنیادوں کی بھرائی", "price": 2000},
+        {"item": "پانی ٹینکر 2 عدد 2500", "price": 5000},
+        {"item": "بنیادوں کی بھرائی کے وقت روٹی خرچہ", "price": 4500},
+        {"item": "اینٹ 6 ہزار(16500 فی ہزار)", "price": 99000},
+        {"item": "ریت 1 ٹرالی 9000", "price": 9000},
+        {"item": "مزدوری بنیادوں کی چنائی", "price": 23000},
+        {"item": "پانی ٹینکر 2500", "price": 2500},
+        {"item": "پانی ٹینکر بنیادوں کی ترائی (واجد)", "price": 2500}
+      ]
     },
     {
       "id": 2,
       "name": "Water + Walls + Roof",
       "description": "Water system installation, wall construction, and roof structure",
       "estimated": 2450000,
-      "actual": null,
+      "actual": 0,
       "status": "in_progress",
-      "order": 2
+      "order": 2,
+      "expenses": [   {"item": "اینٹ 20 ہزار(16500 فی ہزار)", "price": 330000},
+      {"item": "دو ہزار اینٹ", "price": 33000}]
     },
     {
       "id": 3,
@@ -25,7 +49,8 @@
       "estimated": null,
       "actual": null,
       "status": "upcoming",
-      "order": 3
+      "order": 3,
+      "expenses": []
     },
     {
       "id": 4,
@@ -34,7 +59,8 @@
       "estimated": null,
       "actual": null,
       "status": "upcoming",
-      "order": 4
+      "order": 4,
+      "expenses": []
     },
     {
       "id": 5,
@@ -43,7 +69,8 @@
       "estimated": null,
       "actual": null,
       "status": "upcoming",
-      "order": 5
+      "order": 5,
+      "expenses": []
     },
     {
       "id": 6,
@@ -52,7 +79,8 @@
       "estimated": null,
       "actual": null,
       "status": "upcoming",
-      "order": 6
+      "order": 6,
+      "expenses": []
     }
   ]
 } 

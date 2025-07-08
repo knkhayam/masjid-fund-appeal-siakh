@@ -2,11 +2,11 @@ const fs = require('fs');
 
 // Read the JSON files
 const contributions = JSON.parse(fs.readFileSync('contributions.json', 'utf8'));
-const expenses = JSON.parse(fs.readFileSync('expenses.json', 'utf8'));
+const workPhases = JSON.parse(fs.readFileSync('work-phases.json', 'utf8'));
 
 // Calculate totals
 const totalRaised = contributions.reduce((sum, c) => sum + c.amount, 0);
-const totalTarget = expenses.reduce((sum, e) => sum + e.price, 0);
+const totalTarget = 6500000; // Fixed target amount
 const percentage = Math.min(100, (totalRaised / totalTarget) * 100);
 
 // Calculate SVG circle properties

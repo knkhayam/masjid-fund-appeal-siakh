@@ -106,152 +106,7 @@ function scrollToPaymentDetails() {
   }
 }
 
-// Image Slider functionality
-class ImageSlider {
-  constructor() {
-    this.currentSlide = 0;
-    this.slides = [];
-    this.track = document.getElementById('slider-track');
-    this.prevBtn = document.getElementById('prev-btn');
-    this.nextBtn = document.getElementById('next-btn');
-    this.dotsContainer = document.getElementById('slider-dots');
-    
-    this.init();
-  }
-  
-  init() {
-    this.loadSlides();
-    this.setupEventListeners();
-    this.updateSlider();
-  }
-  
-  loadSlides() {
-    // List of images and videos
-    const mediaItems = [
-      // 3d-mpas
-      { src: 'images/inauguration.jpeg', type: 'image' },
-      { src: 'images/3d-mpas/WhatsApp Image 2025-06-19 at 4.00.07 PM.jpeg', type: 'image' },
-      { src: 'images/3d-mpas/WhatsApp Image 2025-06-19 at 4.00.06 PM (1).jpeg', type: 'image' },
-      { src: 'images/3d-mpas/WhatsApp Image 2025-06-19 at 4.00.06 PM.jpeg', type: 'image' },
-      // current-progress
-      { src: 'images/current-progress/WhatsApp Image 2025-06-19 at 3.57.01 PM (10).jpeg', type: 'image' },
-      { src: 'images/current-progress/WhatsApp Image 2025-06-19 at 3.57.01 PM (9).jpeg', type: 'image' },
-      { src: 'images/current-progress/WhatsApp Image 2025-06-19 at 3.57.01 PM (8).jpeg', type: 'image' },
-      { src: 'images/current-progress/WhatsApp Image 2025-06-19 at 3.57.01 PM (7).jpeg', type: 'image' },
-      { src: 'images/current-progress/WhatsApp Image 2025-06-19 at 3.57.01 PM (6).jpeg', type: 'image' },
-      { src: 'images/current-progress/WhatsApp Image 2025-06-19 at 3.57.01 PM (5).jpeg', type: 'image' },
-      { src: 'images/current-progress/WhatsApp Image 2025-06-19 at 3.57.01 PM (4).jpeg', type: 'image' },
-      { src: 'images/current-progress/WhatsApp Image 2025-06-19 at 3.57.01 PM (3).jpeg', type: 'image' },
-      { src: 'images/current-progress/WhatsApp Image 2025-06-19 at 3.57.01 PM (2).jpeg', type: 'image' },
-      { src: 'images/current-progress/WhatsApp Image 2025-06-19 at 3.57.01 PM (1).jpeg', type: 'image' },
-      { src: 'images/current-progress/WhatsApp Image 2025-06-19 at 3.57.01 PM.jpeg', type: 'image' },
-      // Videos
-      { src: 'images/videos/WhatsApp Video 2025-06-19 at 3.56.59 PM.mp4', type: 'video' },
-      { src: 'images/videos/WhatsApp Video 2025-06-19 at 3.57.00 PM.mp4', type: 'video' },
-      { src: 'images/videos/WhatsApp Video 2025-06-19 at 3.57.03 PM.mp4', type: 'video' }
-    ];
-    
-    mediaItems.forEach((item, index) => {
-      const element = item.type === 'image' ? 
-        this.createImageElement(item.src) : 
-        this.createVideoElement(item.src);
-      
-      this.slides.push(element);
-      this.track.appendChild(element);
-      
-      // Create dot
-      const dot = document.createElement('div');
-      dot.className = 'dot';
-      dot.addEventListener('click', () => this.goToSlide(index));
-      this.dotsContainer.appendChild(dot);
-    });
-  }
-  
-  createImageElement(src) {
-    const img = document.createElement('img');
-    img.src = src;
-    img.alt = 'Gallery Image';
-    return img;
-  }
-  
-  createVideoElement(src) {
-    const video = document.createElement('video');
-    video.src = src;
-    video.controls = true;
-    video.muted = true;
-    return video;
-  }
-  
-  setupEventListeners() {
-    this.prevBtn.addEventListener('click', () => this.prevSlide());
-    this.nextBtn.addEventListener('click', () => this.nextSlide());
-    
-    // Touch/swipe support
-    let startX = 0;
-    let endX = 0;
-    
-    this.track.addEventListener('touchstart', (e) => {
-      startX = e.touches[0].clientX;
-    });
-    
-    this.track.addEventListener('touchend', (e) => {
-      endX = e.changedTouches[0].clientX;
-      this.handleSwipe(startX, endX);
-    });
-    
-    // Keyboard navigation
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'ArrowLeft') this.prevSlide();
-      if (e.key === 'ArrowRight') this.nextSlide();
-    });
-    
-    // Auto-play (optional)
-    setInterval(() => this.nextSlide(), 5000);
-  }
-  
-  handleSwipe(startX, endX) {
-    const threshold = 50;
-    const diff = startX - endX;
-    
-    if (Math.abs(diff) > threshold) {
-      if (diff > 0) {
-        this.nextSlide();
-      } else {
-        this.prevSlide();
-      }
-    }
-  }
-  
-  prevSlide() {
-    this.currentSlide = this.currentSlide > 0 ? this.currentSlide - 1 : this.slides.length - 1;
-    this.updateSlider();
-  }
-  
-  nextSlide() {
-    this.currentSlide = this.currentSlide < this.slides.length - 1 ? this.currentSlide + 1 : 0;
-    this.updateSlider();
-  }
-  
-  goToSlide(index) {
-    this.currentSlide = index;
-    this.updateSlider();
-  }
-  
-  updateSlider() {
-    const offset = -this.currentSlide * 100;
-    this.track.style.transform = `translateX(${offset}%)`;
-    
-    // Update dots
-    const dots = this.dotsContainer.querySelectorAll('.dot');
-    dots.forEach((dot, index) => {
-      dot.classList.toggle('active', index === this.currentSlide);
-    });
-    
-    // Update button states
-    this.prevBtn.style.opacity = this.currentSlide === 0 ? '0.5' : '1';
-    this.nextBtn.style.opacity = this.currentSlide === this.slides.length - 1 ? '0.5' : '1';
-  }
-}
+
 
 // Load and render contributions with accordion
 fetch('contributions.json?v=18')
@@ -397,30 +252,15 @@ fetch('contributions.json?v=18')
     document.getElementById('current-progress').textContent = formatPKR(total);
   });
 
-// Load and render expenses
-fetch('expenses.json?v=8')
+// Update progress bar and target
+document.getElementById('donation-target').textContent = formatPKR(target);
+document.getElementById('target-progress').textContent = formatPKR(target);
+fetch('contributions.json?v=7')
   .then(res => res.json())
-  .then(data => {
-    const tbody = document.querySelector('#expenses-table tbody');
-    let total = 0;
-    data.forEach(row => {
-      const tr = document.createElement('tr');
-      tr.innerHTML = `<td>${row.item}</td><td>${formatPKR(row.price)}</td>`;
-      tbody.appendChild(tr);
-      total += row.price;
-    });
-    
-    document.getElementById('expenses-total').textContent = formatPKR(total) + " / " + formatPKR(target);
-    document.getElementById('donation-target').textContent = formatPKR(target);//formatPKR(total);
-    document.getElementById('target-progress').textContent = formatPKR(target);
-    // Update progress bar
-    fetch('contributions.json?v=7')
-      .then(res => res.json())
-      .then(contribs => {
-        let raised = contribs.reduce((sum, c) => sum + c.amount, 0);
-        let percent = Math.min(100, (raised / target) * 100);
-        document.getElementById('progress-bar-fill').style.width = percent + '%';
-      });
+  .then(contribs => {
+    let raised = contribs.reduce((sum, c) => sum + c.amount, 0);
+    let percent = Math.min(100, (raised / target) * 100);
+    document.getElementById('progress-bar-fill').style.width = percent + '%';
   });
 
 // Load and render work phases
@@ -434,18 +274,17 @@ fetch('work-phases.json?v=1')
     // Sort phases by order
     const sortedPhases = data.phases.sort((a, b) => a.order - b.order);
     
-    // Load contributions and expenses to calculate in-progress phase spending
-    Promise.all([
-      fetch('contributions.json?v=13').then(res => res.json()),
-      fetch('expenses.json?v=14').then(res => res.json())
-    ]).then(([contributions, expenses]) => {
+    // Load contributions to calculate in-progress phase spending
+    fetch('contributions.json?v=13').then(res => res.json()).then(contributions => {
       // Calculate total contributions
       const totalContributions = contributions.reduce((sum, c) => sum + c.amount, 0);
       
-      // Calculate total spent on completed phases
-      const completedPhasesSpent = sortedPhases
-        .filter(phase => phase.status === 'completed')
-        .reduce((sum, phase) => sum + (phase.actual || 0), 0);
+      // Calculate total spent on all phases with expenses
+      const totalPhasesSpent = sortedPhases
+        .reduce((sum, phase) => {
+          const actualSpent = phase.expenses ? phase.expenses.reduce((expenseSum, expense) => expenseSum + expense.price, 0) : 0;
+          return sum + actualSpent;
+        }, 0);
       
       // Find the in-progress phase
       const inProgressPhase = sortedPhases.find(phase => phase.status === 'in_progress');
@@ -479,17 +318,36 @@ fetch('work-phases.json?v=1')
         let actualValue = 'TBD';
         let progressPercentage = 0;
         
+        // Calculate actual spent from expenses data for any phase that has expenses
+        const actualSpent = phase.expenses ? phase.expenses.reduce((sum, expense) => sum + expense.price, 0) : 0;
+        
         if (phase.status === 'completed') {
-          actualValue = phase.actual ? formatPKR(phase.actual) : 'TBD';
+          actualValue = actualSpent > 0 ? formatPKR(actualSpent) : 'TBD';
           progressPercentage = 100;
-        } else if (phase.status === 'in_progress' && phase.estimated) {
-          // Calculate remaining amount for in-progress phase
-          const remainingAmount = totalContributions - completedPhasesSpent;
-          const spentAmount = Math.max(0, Math.min(remainingAmount, phase.estimated));
-          actualValue = formatPKR(spentAmount);
-          progressPercentage = Math.min(100, (spentAmount / phase.estimated) * 100);
+        } else if (phase.status === 'in_progress') {
+          if (actualSpent > 0) {
+            // If phase has expenses, show actual spent
+            actualValue = formatPKR(actualSpent);
+            progressPercentage = phase.estimated ? Math.min(100, (actualSpent / phase.estimated) * 100) : 0;
+          } else if (phase.estimated) {
+            // Calculate remaining amount for in-progress phase without expenses
+            const remainingAmount = totalContributions - totalPhasesSpent;
+            const spentAmount = Math.max(0, Math.min(remainingAmount, phase.estimated));
+            actualValue = formatPKR(spentAmount);
+            progressPercentage = Math.min(100, (spentAmount / phase.estimated) * 100);
+          } else {
+            actualValue = 'TBD';
+            progressPercentage = 0;
+          }
         } else if (phase.status === 'upcoming') {
-          progressPercentage = 0;
+          if (actualSpent > 0) {
+            // If upcoming phase has expenses, show them
+            actualValue = formatPKR(actualSpent);
+            progressPercentage = phase.estimated ? Math.min(100, (actualSpent / phase.estimated) * 100) : 0;
+          } else {
+            actualValue = 'TBD';
+            progressPercentage = 0;
+          }
         }
         
         const statusText = phase.status.replace('_', ' ').toUpperCase();
@@ -514,6 +372,9 @@ fetch('work-phases.json?v=1')
             </div>
             <div class="phase-progress-text">${progressPercentage.toFixed(1)}%</div>
           </div>
+          <button class="phase-details-btn" onclick="openPhaseModal(${phase.order})">
+            📸 View Details
+          </button>
         `;
         
         phasesDetails.appendChild(cardDiv);
@@ -550,6 +411,8 @@ fetch('work-phases.json?v=1')
           phasesDetails.appendChild(messageCard);
         }
       });
+    }).catch(error => {
+      console.error('Error loading contributions:', error);
     });
   })
   .catch(error => {
@@ -558,8 +421,6 @@ fetch('work-phases.json?v=1')
 
 // Initialize everything when DOM is loaded
 window.addEventListener('DOMContentLoaded', () => {
-  // Initialize image slider
-  new ImageSlider();
   
   // Setup donate now button
   const donateBtn = document.getElementById('donate-now-btn');
@@ -606,6 +467,24 @@ window.addEventListener('DOMContentLoaded', () => {
       if (modalOpened && modal.style.display === 'block') {
         closeImageModal();
         modalOpened = false;
+      }
+    });
+  }
+  
+  // Setup phase modal events
+  const phaseModal = document.getElementById('phaseModal');
+  if (phaseModal) {
+    // Close modal on background click
+    phaseModal.addEventListener('click', function(e) {
+      if (e.target === phaseModal) {
+        closePhaseModal();
+      }
+    });
+    
+    // Close modal on escape key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && phaseModal.style.display === 'block') {
+        closePhaseModal();
       }
     });
   }
@@ -658,4 +537,254 @@ function fallbackShare() {
   // Also try to open WhatsApp Web if possible
   const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(text + ' ' + url)}`;
   window.open(whatsappUrl, '_blank');
+}
+
+// Phase Modal Functions
+let currentPhase = null;
+let phaseSlider = null;
+
+function openPhaseModal(phaseOrder) {
+  currentPhase = phaseOrder;
+  const modal = document.getElementById('phaseModal');
+  const title = document.getElementById('phaseModalTitle');
+  const description = document.getElementById('phaseModalDescription');
+  
+  // Get phase data
+  fetch('work-phases.json?v=2')
+    .then(res => res.json())
+    .then(data => {
+      const phase = data.phases.find(p => p.order === phaseOrder);
+      if (phase) {
+        title.textContent = `Phase ${phase.order}: ${phase.name}`;
+        description.textContent = phase.description;
+        
+        // Load phase images
+        loadPhaseImages(phaseOrder);
+        
+        // Load phase expenses
+        loadPhaseExpenses(phase);
+        
+        // Show modal
+        modal.style.display = 'block';
+        document.body.style.overflow = 'hidden';
+        
+        // Add to browser history for back button support
+        window.history.pushState({ modal: 'phase', phase: phaseOrder }, '', `#phase-${phaseOrder}`);
+        
+        // Initialize phase slider
+        setTimeout(() => {
+          initializePhaseSlider();
+        }, 100);
+      }
+    });
+}
+
+function closePhaseModal() {
+  const modal = document.getElementById('phaseModal');
+  modal.style.display = 'none';
+  document.body.style.overflow = 'auto';
+  currentPhase = null;
+  phaseSlider = null;
+  
+  // Remove from browser history if it was added
+  if (window.location.hash.startsWith('#phase-')) {
+    window.history.back();
+  }
+}
+
+// Add event listener for back button
+window.addEventListener('popstate', function(event) {
+  if (event.state && event.state.modal === 'phase') {
+    // Back button was pressed while modal was open, close it
+    closePhaseModal();
+  }
+});
+
+function loadPhaseImages(phaseOrder) {
+  const track = document.getElementById('phase-slider-track');
+  const dotsContainer = document.getElementById('phase-slider-dots');
+  
+  // Clear existing content
+  track.innerHTML = '';
+  dotsContainer.innerHTML = '';
+  
+  // Only show images for phase 1, show "coming soon" for others
+  if (phaseOrder === 1) {
+    // For now, load all images from phase-1 folder
+    // In the future, this can be made dynamic based on phase
+    const imageFiles = [
+      'WhatsApp Image 2025-06-19 at 3.57.01 PM (10).jpeg',
+      'WhatsApp Image 2025-06-19 at 3.57.01 PM (9).jpeg',
+      'WhatsApp Image 2025-06-19 at 3.57.01 PM (8).jpeg',
+      'WhatsApp Image 2025-06-19 at 3.57.01 PM (7).jpeg',
+      'WhatsApp Image 2025-06-19 at 3.57.01 PM (6).jpeg',
+      'WhatsApp Image 2025-06-19 at 3.57.01 PM (5).jpeg',
+      'WhatsApp Image 2025-06-19 at 3.57.01 PM (4).jpeg',
+      'WhatsApp Image 2025-06-19 at 3.57.01 PM (3).jpeg',
+      'WhatsApp Image 2025-06-19 at 3.57.01 PM (2).jpeg',
+      'WhatsApp Image 2025-06-19 at 3.57.01 PM (1).jpeg',
+      'WhatsApp Image 2025-06-19 at 3.57.01 PM.jpeg',
+      'WhatsApp Image 2025-06-19 at 3.57.02 PM (1).jpeg',
+      'WhatsApp Image 2025-06-19 at 3.57.02 PM (10).jpeg',
+      'WhatsApp Image 2025-06-19 at 3.57.02 PM (11).jpeg',
+      'WhatsApp Image 2025-06-19 at 3.57.02 PM (2).jpeg',
+      'WhatsApp Image 2025-06-19 at 3.57.02 PM (3).jpeg',
+      'WhatsApp Image 2025-06-19 at 3.57.02 PM (4).jpeg',
+      'WhatsApp Image 2025-06-19 at 3.57.02 PM (5).jpeg',
+      'WhatsApp Image 2025-06-19 at 3.57.02 PM (6).jpeg',
+      'WhatsApp Image 2025-06-19 at 3.57.02 PM (7).jpeg',
+      'WhatsApp Image 2025-06-19 at 3.57.02 PM (8).jpeg',
+      'WhatsApp Image 2025-06-19 at 3.57.02 PM (9).jpeg',
+      'WhatsApp Image 2025-06-19 at 3.57.02 PM.jpeg',
+      'WhatsApp Image 2025-06-19 at 3.57.03 PM (1).jpeg',
+      'WhatsApp Image 2025-06-19 at 3.57.03 PM (2).jpeg',
+      'WhatsApp Image 2025-06-19 at 3.57.03 PM (3).jpeg',
+      'WhatsApp Image 2025-06-19 at 3.57.03 PM (4).jpeg',
+      'WhatsApp Image 2025-06-19 at 3.57.03 PM (5).jpeg',
+      'WhatsApp Image 2025-06-19 at 3.57.03 PM (6).jpeg',
+      'WhatsApp Image 2025-06-19 at 3.57.03 PM (7).jpeg',
+      'WhatsApp Image 2025-06-19 at 3.57.03 PM.jpeg'
+    ];
+    
+    imageFiles.forEach((filename, index) => {
+      const img = document.createElement('img');
+      img.src = `images/current-progress/phase-1/${filename}`;
+      img.alt = `Phase ${phaseOrder} Image ${index + 1}`;
+      track.appendChild(img);
+      
+      // Create dot
+      const dot = document.createElement('div');
+      dot.className = 'dot';
+      dot.addEventListener('click', () => phaseSlider.goToSlide(index));
+      dotsContainer.appendChild(dot);
+    });
+  } else {
+    // Show "coming soon" message for other phases
+    const comingSoonDiv = document.createElement('div');
+    comingSoonDiv.className = 'coming-soon-message';
+    comingSoonDiv.innerHTML = `
+      <div class="coming-soon-content">
+        <div class="coming-soon-icon">📸</div>
+        <h3>Pictures Coming Soon</h3>
+        <p>Phase ${phaseOrder} pictures will be available once work begins.</p>
+        <p class="urdu-text">فیز ${phaseOrder} کی تصاویر کام شروع ہونے کے بعد دستیاب ہوں گی۔</p>
+      </div>
+    `;
+    track.appendChild(comingSoonDiv);
+    
+    // Hide slider controls since there's only one "slide"
+    const prevBtn = document.getElementById('phase-prev-btn');
+    const nextBtn = document.getElementById('phase-next-btn');
+    if (prevBtn) prevBtn.style.display = 'none';
+    if (nextBtn) nextBtn.style.display = 'none';
+  }
+}
+
+function loadPhaseExpenses(phase) {
+  const tbody = document.querySelector('#phase-expenses-table tbody');
+  const totalCell = document.getElementById('phase-expenses-total');
+  
+  // Clear existing content
+  tbody.innerHTML = '';
+  
+  let total = 0;
+  
+  if (phase.expenses && phase.expenses.length > 0) {
+    phase.expenses.forEach(row => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `<td>${row.item}</td><td>${formatPKR(row.price)}</td>`;
+      tbody.appendChild(tr);
+      total += row.price;
+    });
+  } else {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td colspan="2" style="text-align: center; color: #ccc; font-style: italic;">No expenses recorded yet</td>`;
+    tbody.appendChild(tr);
+  }
+  
+  totalCell.textContent = formatPKR(total);
+}
+
+function initializePhaseSlider() {
+  const track = document.getElementById('phase-slider-track');
+  const prevBtn = document.getElementById('phase-prev-btn');
+  const nextBtn = document.getElementById('phase-next-btn');
+  const dotsContainer = document.getElementById('phase-slider-dots');
+  
+  if (!track || track.children.length === 0) return;
+  
+  phaseSlider = {
+    currentSlide: 0,
+    slides: Array.from(track.children),
+    track: track,
+    prevBtn: prevBtn,
+    nextBtn: nextBtn,
+    dotsContainer: dotsContainer,
+    
+    init() {
+      this.setupEventListeners();
+      this.updateSlider();
+    },
+    
+    setupEventListeners() {
+      this.prevBtn.addEventListener('click', () => this.prevSlide());
+      this.nextBtn.addEventListener('click', () => this.nextSlide());
+      
+      // Touch/swipe support
+      let startX = 0;
+      let endX = 0;
+      
+      this.track.addEventListener('touchstart', (e) => {
+        startX = e.touches[0].clientX;
+      });
+      
+      this.track.addEventListener('touchend', (e) => {
+        endX = e.changedTouches[0].clientX;
+        this.handleSwipe(startX, endX);
+      });
+    },
+    
+    handleSwipe(startX, endX) {
+      const diff = startX - endX;
+      if (Math.abs(diff) > 50) {
+        if (diff > 0) {
+          this.nextSlide();
+        } else {
+          this.prevSlide();
+        }
+      }
+    },
+    
+    prevSlide() {
+      this.currentSlide = Math.max(0, this.currentSlide - 1);
+      this.updateSlider();
+    },
+    
+    nextSlide() {
+      this.currentSlide = Math.min(this.slides.length - 1, this.currentSlide + 1);
+      this.updateSlider();
+    },
+    
+    goToSlide(index) {
+      this.currentSlide = index;
+      this.updateSlider();
+    },
+    
+    updateSlider() {
+      const offset = -this.currentSlide * 100;
+      this.track.style.transform = `translateX(${offset}%)`;
+      
+      // Update dots
+      const dots = this.dotsContainer.querySelectorAll('.dot');
+      dots.forEach((dot, index) => {
+        dot.classList.toggle('active', index === this.currentSlide);
+      });
+      
+      // Update button states
+      this.prevBtn.style.opacity = this.currentSlide === 0 ? '0.5' : '1';
+      this.nextBtn.style.opacity = this.currentSlide === this.slides.length - 1 ? '0.5' : '1';
+    }
+  };
+  
+  phaseSlider.init();
 } 
