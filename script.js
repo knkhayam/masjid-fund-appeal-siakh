@@ -274,8 +274,8 @@ fetch('work-phases.json?v=1')
     // Sort phases by order
     const sortedPhases = data.phases.sort((a, b) => a.order - b.order);
     
-    // Load contributions to calculate in-progress phase spending
-    fetch('contributions.json?v=14').then(res => res.json()).then(contributions => {
+          // Load contributions to calculate in-progress phase spending
+      fetch('contributions.json?v=15').then(res => res.json()).then(contributions => {
       // Calculate total contributions
       const totalContributions = contributions.reduce((sum, c) => sum + c.amount, 0);
       
@@ -352,6 +352,62 @@ fetch('work-phases.json?v=1')
         
         const statusText = phase.status.replace('_', ' ').toUpperCase();
         
+        // Calculate contributions for in-progress phase (excluding first phase spent)
+        let contributionsForPhase = 0;
+        let contributionsProgressPercentage = 0;
+        
+        if (phase.status === 'in_progress') {
+          // Calculate total spent on completed phases
+          const completedPhasesSpent = sortedPhases
+            .filter(p => p.status === 'completed')
+            .reduce((sum, p) => {
+              const actualSpent = p.expenses ? p.expenses.reduce((expenseSum, expense) => expenseSum + expense.price, 0) : 0;
+              return sum + actualSpent;
+            }, 0);
+          
+          // Contributions available for this phase = total contributions - completed phases spent
+          contributionsForPhase = Math.max(0, totalContributions - completedPhasesSpent);
+          contributionsProgressPercentage = phase.estimated ? Math.min(100, (contributionsForPhase / phase.estimated) * 100) : 0;
+        }
+        
+        // Generate progress bars HTML
+        let progressBarsHTML = '';
+        
+        if (phase.status === 'in_progress') {
+          progressBarsHTML = `
+            <div class="phase-progress-section">
+              <div class="progress-bar-group">
+                <div class="progress-label">💰 Spent in Progress:</div>
+                <div class="phase-progress-container">
+                  <div class="phase-progress-bar">
+                    <div class="phase-progress-fill ${phase.status}" style="width: ${progressPercentage}%"></div>
+                  </div>
+                  <div class="phase-progress-text">${progressPercentage.toFixed(1)}%</div>
+                </div>
+              </div>
+              <div class="progress-bar-group">
+                <div class="progress-label">💵 Contributions Collected:</div>
+                <div class="phase-progress-container">
+                  <div class="phase-progress-bar">
+                    <div class="phase-progress-fill contributions" style="width: ${contributionsProgressPercentage}%"></div>
+                  </div>
+                  <div class="phase-progress-text">${contributionsProgressPercentage.toFixed(1)}%</div>
+                </div>
+                <div class="contributions-amount">${formatPKR(contributionsForPhase)} / ${estimatedValue}</div>
+              </div>
+            </div>
+          `;
+        } else {
+          progressBarsHTML = `
+            <div class="phase-progress-container">
+              <div class="phase-progress-bar">
+                <div class="phase-progress-fill ${phase.status}" style="width: ${progressPercentage}%"></div>
+              </div>
+              <div class="phase-progress-text">${progressPercentage.toFixed(1)}%</div>
+            </div>
+          `;
+        }
+        
         cardDiv.innerHTML = `
           <h4>Phase ${phase.order}: ${phase.name}</h4>
           <p class="phase-description">${phase.description}</p>
@@ -366,12 +422,7 @@ fetch('work-phases.json?v=1')
             </div>
           </div>
           <div class="phase-status ${phase.status}">${statusText}</div>
-          <div class="phase-progress-container">
-            <div class="phase-progress-bar">
-              <div class="phase-progress-fill ${phase.status}" style="width: ${progressPercentage}%"></div>
-            </div>
-            <div class="phase-progress-text">${progressPercentage.toFixed(1)}%</div>
-          </div>
+          ${progressBarsHTML}
           <button class="phase-details-btn" onclick="openPhaseModal(${phase.order})">
             📸 View Details
           </button>
@@ -610,45 +661,49 @@ function loadPhaseImages(phaseOrder) {
   
   // Only show images for phase 1, show "coming soon" for others
   if (phaseOrder === 1) {
-    // For now, load all images from phase-1 folder
-    // In the future, this can be made dynamic based on phase
+    // 3D map images first, then current progress images
     const imageFiles = [
-      'WhatsApp Image 2025-06-19 at 3.57.01 PM (10).jpeg',
-      'WhatsApp Image 2025-06-19 at 3.57.01 PM (9).jpeg',
-      'WhatsApp Image 2025-06-19 at 3.57.01 PM (8).jpeg',
-      'WhatsApp Image 2025-06-19 at 3.57.01 PM (7).jpeg',
-      'WhatsApp Image 2025-06-19 at 3.57.01 PM (6).jpeg',
-      'WhatsApp Image 2025-06-19 at 3.57.01 PM (5).jpeg',
-      'WhatsApp Image 2025-06-19 at 3.57.01 PM (4).jpeg',
-      'WhatsApp Image 2025-06-19 at 3.57.01 PM (3).jpeg',
-      'WhatsApp Image 2025-06-19 at 3.57.01 PM (2).jpeg',
-      'WhatsApp Image 2025-06-19 at 3.57.01 PM (1).jpeg',
-      'WhatsApp Image 2025-06-19 at 3.57.01 PM.jpeg',
-      'WhatsApp Image 2025-06-19 at 3.57.02 PM (1).jpeg',
-      'WhatsApp Image 2025-06-19 at 3.57.02 PM (10).jpeg',
-      'WhatsApp Image 2025-06-19 at 3.57.02 PM (11).jpeg',
-      'WhatsApp Image 2025-06-19 at 3.57.02 PM (2).jpeg',
-      'WhatsApp Image 2025-06-19 at 3.57.02 PM (3).jpeg',
-      'WhatsApp Image 2025-06-19 at 3.57.02 PM (4).jpeg',
-      'WhatsApp Image 2025-06-19 at 3.57.02 PM (5).jpeg',
-      'WhatsApp Image 2025-06-19 at 3.57.02 PM (6).jpeg',
-      'WhatsApp Image 2025-06-19 at 3.57.02 PM (7).jpeg',
-      'WhatsApp Image 2025-06-19 at 3.57.02 PM (8).jpeg',
-      'WhatsApp Image 2025-06-19 at 3.57.02 PM (9).jpeg',
-      'WhatsApp Image 2025-06-19 at 3.57.02 PM.jpeg',
-      'WhatsApp Image 2025-06-19 at 3.57.03 PM (1).jpeg',
-      'WhatsApp Image 2025-06-19 at 3.57.03 PM (2).jpeg',
-      'WhatsApp Image 2025-06-19 at 3.57.03 PM (3).jpeg',
-      'WhatsApp Image 2025-06-19 at 3.57.03 PM (4).jpeg',
-      'WhatsApp Image 2025-06-19 at 3.57.03 PM (5).jpeg',
-      'WhatsApp Image 2025-06-19 at 3.57.03 PM (6).jpeg',
-      'WhatsApp Image 2025-06-19 at 3.57.03 PM (7).jpeg',
-      'WhatsApp Image 2025-06-19 at 3.57.03 PM.jpeg'
+      // 3D Map Images (at the beginning)
+      'images/3d-mpas/WhatsApp Image 2025-06-19 at 4.00.06 PM.jpeg',
+      'images/3d-mpas/WhatsApp Image 2025-06-19 at 4.00.06 PM (1).jpeg',
+      'images/3d-mpas/WhatsApp Image 2025-06-19 at 4.00.07 PM.jpeg',
+      // Current Progress Images
+      'images/current-progress/phase-1/WhatsApp Image 2025-06-19 at 3.57.01 PM (10).jpeg',
+      'images/current-progress/phase-1/WhatsApp Image 2025-06-19 at 3.57.01 PM (9).jpeg',
+      'images/current-progress/phase-1/WhatsApp Image 2025-06-19 at 3.57.01 PM (8).jpeg',
+      'images/current-progress/phase-1/WhatsApp Image 2025-06-19 at 3.57.01 PM (7).jpeg',
+      'images/current-progress/phase-1/WhatsApp Image 2025-06-19 at 3.57.01 PM (6).jpeg',
+      'images/current-progress/phase-1/WhatsApp Image 2025-06-19 at 3.57.01 PM (5).jpeg',
+      'images/current-progress/phase-1/WhatsApp Image 2025-06-19 at 3.57.01 PM (4).jpeg',
+      'images/current-progress/phase-1/WhatsApp Image 2025-06-19 at 3.57.01 PM (3).jpeg',
+      'images/current-progress/phase-1/WhatsApp Image 2025-06-19 at 3.57.01 PM (2).jpeg',
+      'images/current-progress/phase-1/WhatsApp Image 2025-06-19 at 3.57.01 PM (1).jpeg',
+      'images/current-progress/phase-1/WhatsApp Image 2025-06-19 at 3.57.01 PM.jpeg',
+      'images/current-progress/phase-1/WhatsApp Image 2025-06-19 at 3.57.02 PM (1).jpeg',
+      'images/current-progress/phase-1/WhatsApp Image 2025-06-19 at 3.57.02 PM (10).jpeg',
+      'images/current-progress/phase-1/WhatsApp Image 2025-06-19 at 3.57.02 PM (11).jpeg',
+      'images/current-progress/phase-1/WhatsApp Image 2025-06-19 at 3.57.02 PM (2).jpeg',
+      'images/current-progress/phase-1/WhatsApp Image 2025-06-19 at 3.57.02 PM (3).jpeg',
+      'images/current-progress/phase-1/WhatsApp Image 2025-06-19 at 3.57.02 PM (4).jpeg',
+      'images/current-progress/phase-1/WhatsApp Image 2025-06-19 at 3.57.02 PM (5).jpeg',
+      'images/current-progress/phase-1/WhatsApp Image 2025-06-19 at 3.57.02 PM (6).jpeg',
+      'images/current-progress/phase-1/WhatsApp Image 2025-06-19 at 3.57.02 PM (7).jpeg',
+      'images/current-progress/phase-1/WhatsApp Image 2025-06-19 at 3.57.02 PM (8).jpeg',
+      'images/current-progress/phase-1/WhatsApp Image 2025-06-19 at 3.57.02 PM (9).jpeg',
+      'images/current-progress/phase-1/WhatsApp Image 2025-06-19 at 3.57.02 PM.jpeg',
+      'images/current-progress/phase-1/WhatsApp Image 2025-06-19 at 3.57.03 PM (1).jpeg',
+      'images/current-progress/phase-1/WhatsApp Image 2025-06-19 at 3.57.03 PM (2).jpeg',
+      'images/current-progress/phase-1/WhatsApp Image 2025-06-19 at 3.57.03 PM (3).jpeg',
+      'images/current-progress/phase-1/WhatsApp Image 2025-06-19 at 3.57.03 PM (4).jpeg',
+      'images/current-progress/phase-1/WhatsApp Image 2025-06-19 at 3.57.03 PM (5).jpeg',
+      'images/current-progress/phase-1/WhatsApp Image 2025-06-19 at 3.57.03 PM (6).jpeg',
+      'images/current-progress/phase-1/WhatsApp Image 2025-06-19 at 3.57.03 PM (7).jpeg',
+      'images/current-progress/phase-1/WhatsApp Image 2025-06-19 at 3.57.03 PM.jpeg'
     ];
     
-    imageFiles.forEach((filename, index) => {
+    imageFiles.forEach((imagePath, index) => {
       const img = document.createElement('img');
-      img.src = `images/current-progress/phase-1/${filename}`;
+      img.src = imagePath;
       img.alt = `Phase ${phaseOrder} Image ${index + 1}`;
       track.appendChild(img);
       

@@ -1136,6 +1136,39 @@ tfoot td {
   margin-top: 0.5rem;
 }
 
+/* New styles for dual progress bars in in-progress phases */
+.phase-progress-section {
+  margin-top: 15px;
+}
+
+.progress-bar-group {
+  margin-bottom: 12px;
+}
+
+.progress-bar-group:last-child {
+  margin-bottom: 0;
+}
+
+.progress-label {
+  font-size: 12px;
+  color: #ccc;
+  margin-bottom: 6px;
+  font-weight: bold;
+}
+
+.phase-progress-fill.contributions {
+  background: linear-gradient(90deg, #4CAF50, #45a049);
+  box-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
+}
+
+.contributions-amount {
+  font-size: 11px;
+  color: #4CAF50;
+  text-align: center;
+  margin-top: 4px;
+  font-weight: bold;
+}
+
 /* Important Message Card Styles */
 .phase-important-message {
   background: linear-gradient(135deg, #1a1a2e, #16213e);
