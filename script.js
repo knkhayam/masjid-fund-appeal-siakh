@@ -275,7 +275,7 @@ fetch('work-phases.json?v=1')
     const sortedPhases = data.phases.sort((a, b) => a.order - b.order);
     
           // Load contributions to calculate in-progress phase spending
-      fetch('contributions.json?v=19').then(res => res.json()).then(contributions => {
+      fetch('contributions.json?v=20').then(res => res.json()).then(contributions => {
       // Calculate total contributions
       const totalContributions = contributions.reduce((sum, c) => sum + c.amount, 0);
       
