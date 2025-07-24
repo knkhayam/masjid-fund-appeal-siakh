@@ -264,7 +264,7 @@ fetch('contributions.json?v=7')
   });
 
 // Load and render work phases
-fetch('work-phases.json?v=1')
+fetch('work-phases.json?v=2')
   .then(res => res.json())
   .then(data => {
     const phasesProgressBar = document.getElementById('phases-progress-bar');
@@ -275,7 +275,7 @@ fetch('work-phases.json?v=1')
     const sortedPhases = data.phases.sort((a, b) => a.order - b.order);
     
           // Load contributions to calculate in-progress phase spending
-      fetch('contributions.json?v=21').then(res => res.json()).then(contributions => {
+      fetch('contributions.json?v=22').then(res => res.json()).then(contributions => {
       // Calculate total contributions
       const totalContributions = contributions.reduce((sum, c) => sum + c.amount, 0);
       
