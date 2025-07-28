@@ -109,7 +109,7 @@ function scrollToPaymentDetails() {
 
 
 // Load and render contributions with accordion
-fetch('contributions.json?v=18')
+fetch('contributions.json?v=25')
   .then(res => res.json())
   .then(data => {
     const accordionContainer = document.getElementById('contributions-accordion');
@@ -663,10 +663,6 @@ function loadPhaseImages(phaseOrder) {
   if (phaseOrder === 1) {
     // 3D map images first, then current progress images
     var imageFiles = [
-      // 3D Map Images (at the beginning)
-      'images/3d-mpas/WhatsApp Image 2025-06-19 at 4.00.06 PM.jpeg',
-      'images/3d-mpas/WhatsApp Image 2025-06-19 at 4.00.06 PM (1).jpeg',
-      'images/3d-mpas/WhatsApp Image 2025-06-19 at 4.00.07 PM.jpeg',
       // Current Progress Images
       'images/current-progress/phase-1/WhatsApp Image 2025-06-19 at 3.57.01 PM (10).jpeg',
       'images/current-progress/phase-1/WhatsApp Image 2025-06-19 at 3.57.01 PM (9).jpeg',
