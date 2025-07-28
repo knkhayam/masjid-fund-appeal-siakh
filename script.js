@@ -264,7 +264,7 @@ fetch('contributions.json?v=7')
   });
 
 // Load and render work phases
-fetch('work-phases.json?v=2')
+fetch('work-phases.json?v=3')
   .then(res => res.json())
   .then(data => {
     const phasesProgressBar = document.getElementById('phases-progress-bar');
@@ -275,7 +275,7 @@ fetch('work-phases.json?v=2')
     const sortedPhases = data.phases.sort((a, b) => a.order - b.order);
     
           // Load contributions to calculate in-progress phase spending
-      fetch('contributions.json?v=22').then(res => res.json()).then(contributions => {
+      fetch('contributions.json?v=23').then(res => res.json()).then(contributions => {
       // Calculate total contributions
       const totalContributions = contributions.reduce((sum, c) => sum + c.amount, 0);
       
@@ -659,10 +659,10 @@ function loadPhaseImages(phaseOrder) {
   track.innerHTML = '';
   dotsContainer.innerHTML = '';
   
-  // Only show images for phase 1, show "coming soon" for others
+  // Show images for phase 1 and phase 2, show "coming soon" for others
   if (phaseOrder === 1) {
     // 3D map images first, then current progress images
-    const imageFiles = [
+    var imageFiles = [
       // 3D Map Images (at the beginning)
       'images/3d-mpas/WhatsApp Image 2025-06-19 at 4.00.06 PM.jpeg',
       'images/3d-mpas/WhatsApp Image 2025-06-19 at 4.00.06 PM (1).jpeg',
@@ -700,7 +700,19 @@ function loadPhaseImages(phaseOrder) {
       'images/current-progress/phase-1/WhatsApp Image 2025-06-19 at 3.57.03 PM (7).jpeg',
       'images/current-progress/phase-1/WhatsApp Image 2025-06-19 at 3.57.03 PM.jpeg'
     ];
-    
+  } else if (phaseOrder === 2) {
+    // Phase 2 - Current Progress Images
+    var imageFiles = [
+      'images/current-progress/phase-2/WhatsApp Image 2025-07-27 at 10.57.16 AM.jpeg',
+      'images/current-progress/phase-2/WhatsApp Image 2025-07-27 at 10.57.16 AM (1).jpeg',
+      'images/current-progress/phase-2/WhatsApp Image 2025-07-27 at 10.57.18 AM.jpeg',
+      'images/current-progress/phase-2/WhatsApp Image 2025-07-27 at 10.57.23 AM.jpeg',
+      'images/current-progress/phase-2/WhatsApp Image 2025-07-27 at 10.57.25 AM.jpeg'
+    ];
+  }
+  
+  // Process imageFiles if we have them (for phase 1 or 2)
+  if (phaseOrder === 1 || phaseOrder === 2) {
     imageFiles.forEach((imagePath, index) => {
       const img = document.createElement('img');
       img.src = imagePath;
