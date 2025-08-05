@@ -109,7 +109,7 @@ function scrollToPaymentDetails() {
 
 
 // Load and render contributions with accordion
-fetch('contributions.json?v=26')
+fetch('contributions.json?v=27')
   .then(res => res.json())
   .then(data => {
     const accordionContainer = document.getElementById('contributions-accordion');
@@ -255,7 +255,7 @@ fetch('contributions.json?v=26')
 // Update progress bar and target
 document.getElementById('donation-target').textContent = formatPKR(target);
 document.getElementById('target-progress').textContent = formatPKR(target);
-fetch('contributions.json?v=26')
+fetch('contributions.json?v=27')
   .then(res => res.json())
   .then(contribs => {
     let raised = contribs.reduce((sum, c) => sum + c.amount, 0);
@@ -275,7 +275,7 @@ fetch('work-phases.json?v=5')
     const sortedPhases = data.phases.sort((a, b) => a.order - b.order);
     
           // Load contributions to calculate in-progress phase spending
-      fetch('contributions.json?v=26').then(res => res.json()).then(contributions => {
+      fetch('contributions.json?v=27').then(res => res.json()).then(contributions => {
       // Calculate total contributions
       const totalContributions = contributions.reduce((sum, c) => sum + c.amount, 0);
       
