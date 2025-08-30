@@ -109,7 +109,7 @@ function scrollToPaymentDetails() {
 
 
 // Load and render contributions with accordion
-fetch('contributions.json?v=31')
+fetch('contributions.json?v=32')
   .then(res => res.json())
   .then(data => {
     const accordionContainer = document.getElementById('contributions-accordion');
@@ -255,7 +255,7 @@ fetch('contributions.json?v=31')
 // Update progress bar and target
 document.getElementById('donation-target').textContent = formatPKR(target);
 document.getElementById('target-progress').textContent = formatPKR(target);
-fetch('contributions.json?v=31')
+fetch('contributions.json?v=32')
   .then(res => res.json())
   .then(contribs => {
     let raised = contribs.reduce((sum, c) => sum + c.amount, 0);
@@ -264,7 +264,7 @@ fetch('contributions.json?v=31')
   });
 
 // Load and render work phases
-fetch('work-phases.json?v=9')
+fetch('work-phases.json?v=10')
   .then(res => res.json())
   .then(data => {
     const phasesProgressBar = document.getElementById('phases-progress-bar');
@@ -275,7 +275,7 @@ fetch('work-phases.json?v=9')
     const sortedPhases = data.phases.sort((a, b) => a.order - b.order);
     
           // Load contributions to calculate in-progress phase spending
-      fetch('contributions.json?v=31').then(res => res.json()).then(contributions => {
+      fetch('contributions.json?v=32').then(res => res.json()).then(contributions => {
       // Calculate total contributions
       const totalContributions = contributions.reduce((sum, c) => sum + c.amount, 0);
       
@@ -601,7 +601,7 @@ function openPhaseModal(phaseOrder) {
   const description = document.getElementById('phaseModalDescription');
   
   // Get phase data
-  fetch('work-phases.json?v=9')
+  fetch('work-phases.json?v=10')
     .then(res => res.json())
     .then(data => {
       const phase = data.phases.find(p => p.order === phaseOrder);
@@ -699,11 +699,23 @@ function loadPhaseImages(phaseOrder) {
   } else if (phaseOrder === 2) {
     // Phase 2 - Current Progress Images
     var imageFiles = [
+      // Original WhatsApp images
       'images/current-progress/phase-2/WhatsApp Image 2025-07-27 at 10.57.16 AM.jpeg',
       'images/current-progress/phase-2/WhatsApp Image 2025-07-27 at 10.57.16 AM (1).jpeg',
       'images/current-progress/phase-2/WhatsApp Image 2025-07-27 at 10.57.18 AM.jpeg',
       'images/current-progress/phase-2/WhatsApp Image 2025-07-27 at 10.57.23 AM.jpeg',
-      'images/current-progress/phase-2/WhatsApp Image 2025-07-27 at 10.57.25 AM.jpeg'
+      'images/current-progress/phase-2/WhatsApp Image 2025-07-27 at 10.57.25 AM.jpeg',
+      // New numbered images (6-15)
+      'images/current-progress/phase-2/6.jpeg',
+      'images/current-progress/phase-2/7.jpeg',
+      'images/current-progress/phase-2/8.jpeg',
+      'images/current-progress/phase-2/9.jpeg',
+      'images/current-progress/phase-2/10.jpeg',
+      'images/current-progress/phase-2/11.jpeg',
+      'images/current-progress/phase-2/12.jpeg',
+      'images/current-progress/phase-2/13.jpeg',
+      'images/current-progress/phase-2/14.jpeg',
+      'images/current-progress/phase-2/15.jpeg'
     ];
   }
   
