@@ -264,7 +264,7 @@ fetch('contributions.json?v=36')
   });
 
 // Load and render work phases
-fetch('work-phases.json?v=15')
+fetch('work-phases.json?v=16')
   .then(res => res.json())
   .then(data => {
     const phasesProgressBar = document.getElementById('phases-progress-bar');
@@ -601,7 +601,7 @@ function openPhaseModal(phaseOrder) {
   const description = document.getElementById('phaseModalDescription');
   
   // Get phase data
-  fetch('work-phases.json?v=15')
+  fetch('work-phases.json?v=16')
     .then(res => res.json())
     .then(data => {
       const phase = data.phases.find(p => p.order === phaseOrder);
