@@ -109,7 +109,7 @@ function scrollToPaymentDetails() {
 
 
 // Load and render contributions with accordion
-fetch('contributions.json?v=36')
+fetch('contributions.json?v=37')
   .then(res => res.json())
   .then(data => {
     const accordionContainer = document.getElementById('contributions-accordion');
@@ -255,7 +255,7 @@ fetch('contributions.json?v=36')
 // Update progress bar and target
 document.getElementById('donation-target').textContent = formatPKR(target);
 document.getElementById('target-progress').textContent = formatPKR(target);
-fetch('contributions.json?v=36')
+fetch('contributions.json?v=37')
   .then(res => res.json())
   .then(contribs => {
     let raised = contribs.reduce((sum, c) => sum + c.amount, 0);
@@ -264,7 +264,7 @@ fetch('contributions.json?v=36')
   });
 
 // Load and render work phases
-fetch('work-phases.json?v=16')
+fetch('work-phases.json?v=17')
   .then(res => res.json())
   .then(data => {
     const phasesProgressBar = document.getElementById('phases-progress-bar');
@@ -275,7 +275,7 @@ fetch('work-phases.json?v=16')
     const sortedPhases = data.phases.sort((a, b) => a.order - b.order);
     
           // Load contributions to calculate in-progress phase spending
-      fetch('contributions.json?v=36').then(res => res.json()).then(contributions => {
+      fetch('contributions.json?v=37').then(res => res.json()).then(contributions => {
       // Calculate total contributions
       const totalContributions = contributions.reduce((sum, c) => sum + c.amount, 0);
       
@@ -601,7 +601,7 @@ function openPhaseModal(phaseOrder) {
   const description = document.getElementById('phaseModalDescription');
   
   // Get phase data
-  fetch('work-phases.json?v=16')
+  fetch('work-phases.json?v=17')
     .then(res => res.json())
     .then(data => {
       const phase = data.phases.find(p => p.order === phaseOrder);
