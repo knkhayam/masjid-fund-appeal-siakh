@@ -715,7 +715,10 @@ function loadPhaseImages(phaseOrder) {
       'images/current-progress/phase-2/12.jpeg',
       'images/current-progress/phase-2/13.jpeg',
       'images/current-progress/phase-2/14.jpeg',
-      'images/current-progress/phase-2/15.jpeg'
+      'images/current-progress/phase-2/15.jpeg',
+      // Lantern images
+      'images/current-progress/phase-2/lanter1.jpeg',
+      'images/current-progress/phase-2/lanter2.jpeg'
     ];
   }
   
