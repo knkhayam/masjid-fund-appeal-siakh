@@ -36,8 +36,8 @@
       "name": "Water + Walls + Roof",
       "description": "Water system installation, wall construction, and roof structure",
       "estimated": 2450000,
-      "actual": 0,
-      "status": "in_progress",
+      "actual": 2814210,
+      "status": "completed",
       "order": 2,
       "expenses": [   
         {"item": "اینٹ 20 ہزار(16500 فی ہزار)", "price": 330000},
@@ -96,9 +96,11 @@
       "description": "Interior and exterior plastering, floor finishing, and minaret construction",
       "estimated": null,
       "actual": null,
-      "status": "upcoming",
+      "status": "in_progress",
       "order": 3,
-      "expenses": []
+      "expenses": [
+        {"item": "ABC", "price": 1}
+      ]
     },
     {
       "id": 4,
