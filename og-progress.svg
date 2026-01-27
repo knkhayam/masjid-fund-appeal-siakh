@@ -19,13 +19,13 @@
     
     <!-- Progress circle -->
     <circle cx="0" cy="0" r="120" fill="none" stroke="#FFD700" stroke-width="20" 
-            stroke-dasharray="753.9822368615503" stroke-dashoffset="548.2300419433456" stroke-linecap="round">
-      <animate attributeName="stroke-dashoffset" from="753.9822368615503" to="548.2300419433456" dur="2s" fill="freeze"/>
+            stroke-dasharray="753.9822368615503" stroke-dashoffset="84.73739566372387" stroke-linecap="round">
+      <animate attributeName="stroke-dashoffset" from="753.9822368615503" to="84.73739566372387" dur="2s" fill="freeze"/>
     </circle>
     
     <!-- Progress text -->
     <text x="0" y="-20" text-anchor="middle" font-family="Arial, sans-serif" font-size="32" font-weight="bold" fill="#FFD700">
-      27%
+      89%
     </text>
     <text x="0" y="20" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" fill="#FFFFFF">
       Complete
@@ -34,7 +34,7 @@
   
   <!-- Amount raised -->
   <text x="600" y="520" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" fill="#FFFFFF">
-    Raised: Rs 1,550,000 / Rs 5,680,000
+    Raised: Rs 5,769,488 / Rs 6,500,000
   </text>
   
   <!-- Quote -->
