@@ -1,5 +1,5 @@
 // Helper to format PKR
-let target = 6500000;
+let target = 8500000;
 
 // ===== Google Sheets Configuration =====
 // Replace with your Google Sheet ID (the long string in the sheet URL)

@@ -6,7 +6,7 @@ const workPhases = JSON.parse(fs.readFileSync('work-phases.json', 'utf8'));
 
 // Calculate totals
 const totalRaised = contributions.reduce((sum, c) => sum + c.amount, 0);
-const totalTarget = 6500000; // Fixed target amount
+const totalTarget = 8500000; // Fixed target amount
 const percentage = Math.min(100, (totalRaised / totalTarget) * 100);
 
 // Calculate SVG circle properties
