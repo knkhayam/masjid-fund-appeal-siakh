@@ -1,6 +1,125 @@
 // Helper to format PKR
 let target = 6500000;
 
+// ===== Google Sheets Configuration =====
+// Replace with your Google Sheet ID (the long string in the sheet URL)
+// Sheet URL format: https://docs.google.com/spreadsheets/d/SHEET_ID_HERE/edit
+const GOOGLE_SHEET_ID = '1MTpFRKMaYQaWoAukyTyOKKagiZTtnlIoftWU7w7jO-E'; 
+
+const SHEET_NAMES = {
+  contributions: 'Contributions',
+  phases: 'Phases',
+  expenses: 'Expenses'
+};
+
+// Data cache to avoid re-fetching
+let _contributionsCache = null;
+let _phasesCache = null;
+
+function getSheetCSVUrl(sheetName) {
+  return `https://docs.google.com/spreadsheets/d/${GOOGLE_SHEET_ID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(sheetName)}`;
+}
+
+function parseCSVLine(line) {
+  const result = [];
+  let current = '';
+  let inQuotes = false;
+
+  for (let i = 0; i < line.length; i++) {
+    const ch = line[i];
+    if (ch === '"') {
+      if (inQuotes && i + 1 < line.length && line[i + 1] === '"') {
+        current += '"';
+        i++;
+      } else {
+        inQuotes = !inQuotes;
+      }
+    } else if (ch === ',' && !inQuotes) {
+      result.push(current);
+      current = '';
+    } else {
+      current += ch;
+    }
+  }
+  result.push(current);
+  return result;
+}
+
+function parseCSV(csvText) {
+  const lines = csvText.split('\n');
+  if (lines.length < 2) return [];
+
+  const headers = parseCSVLine(lines[0]).map(h => h.replace(/^"|"$/g, '').trim());
+  const rows = [];
+
+  for (let i = 1; i < lines.length; i++) {
+    const line = lines[i].trim();
+    if (!line) continue;
+    const values = parseCSVLine(line);
+    const row = {};
+    headers.forEach((header, idx) => {
+      let val = values[idx] || '';
+      val = val.replace(/^"|"$/g, '').trim();
+      row[header] = val;
+    });
+    rows.push(row);
+  }
+  return rows;
+}
+
+async function fetchContributions() {
+  if (_contributionsCache) return _contributionsCache;
+
+  const csvText = await fetch(getSheetCSVUrl(SHEET_NAMES.contributions)).then(r => r.text());
+  const raw = parseCSV(csvText);
+
+  _contributionsCache = raw.map(row => ({
+    name: row.name || '',
+    date: row.date || '',
+    amount: parseFloat(row.amount) || 0,
+    details: row.details || ''
+  }));
+
+  return _contributionsCache;
+}
+
+async function fetchPhases() {
+  if (_phasesCache) return _phasesCache;
+
+  const [phasesCsv, expensesCsv] = await Promise.all([
+    fetch(getSheetCSVUrl(SHEET_NAMES.phases)).then(r => r.text()),
+    fetch(getSheetCSVUrl(SHEET_NAMES.expenses)).then(r => r.text())
+  ]);
+
+  const phasesRaw = parseCSV(phasesCsv);
+  const expensesRaw = parseCSV(expensesCsv);
+
+  const expensesByPhase = {};
+  expensesRaw.forEach(row => {
+    const pid = parseInt(row.phase_id);
+    if (!expensesByPhase[pid]) expensesByPhase[pid] = [];
+    expensesByPhase[pid].push({
+      item: row.item || '',
+      price: parseFloat(row.price) || 0
+    });
+  });
+
+  _phasesCache = {
+    phases: phasesRaw.map(row => ({
+      id: parseInt(row.id),
+      name: row.name || '',
+      description: row.description || '',
+      estimated: row.estimated ? parseFloat(row.estimated) : null,
+      actual: row.actual ? parseFloat(row.actual) : null,
+      status: row.status || 'upcoming',
+      order: parseInt(row.order),
+      expenses: expensesByPhase[parseInt(row.id)] || []
+    }))
+  };
+
+  return _phasesCache;
+}
+
 function formatPKR(num) {
   return num.toLocaleString('en-PK', { style: 'currency', currency: 'PKR', maximumFractionDigits: 0 });
 }
@@ -109,9 +228,7 @@ function scrollToPaymentDetails() {
 
 
 // Load and render contributions with accordion
-fetch('contributions.json?v=57')
-  .then(res => res.json())
-  .then(data => {
+fetchContributions().then(data => {
     const accordionContainer = document.getElementById('contributions-accordion');
     let total = 0;
     
@@ -255,18 +372,14 @@ fetch('contributions.json?v=57')
 // Update progress bar and target
 document.getElementById('donation-target').textContent = formatPKR(target);
 document.getElementById('target-progress').textContent = formatPKR(target);
-fetch('contributions.json?v=57')
-  .then(res => res.json())
-  .then(contribs => {
+fetchContributions().then(contribs => {
     let raised = contribs.reduce((sum, c) => sum + c.amount, 0);
     let percent = Math.min(100, (raised / target) * 100);
     document.getElementById('progress-bar-fill').style.width = percent + '%';
   });
 
 // Load and render work phases
-fetch('work-phases.json?v=57')
-  .then(res => res.json())
-  .then(data => {
+fetchPhases().then(data => {
     const phasesProgressBar = document.getElementById('phases-progress-bar');
     const phasesDetails = document.getElementById('phases-details');
     const phasesPercentage = document.getElementById('phases-percentage');
@@ -274,8 +387,7 @@ fetch('work-phases.json?v=57')
     // Sort phases by order
     const sortedPhases = data.phases.sort((a, b) => a.order - b.order);
     
-          // Load contributions to calculate in-progress phase spending
-      fetch('contributions.json?v=57').then(res => res.json()).then(contributions => {
+          fetchContributions().then(contributions => {
       // Calculate total contributions
       const totalContributions = contributions.reduce((sum, c) => sum + c.amount, 0);
       
@@ -601,9 +713,7 @@ function openPhaseModal(phaseOrder) {
   const description = document.getElementById('phaseModalDescription');
   
   // Get phase data
-  fetch('work-phases.json?v=57')
-    .then(res => res.json())
-    .then(data => {
+  fetchPhases().then(data => {
       const phase = data.phases.find(p => p.order === phaseOrder);
       if (phase) {
         title.textContent = `Phase ${phase.order}: ${phase.name}`;
